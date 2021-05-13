@@ -5,9 +5,12 @@ import 'package:project_testing/database/event_operations.dart';
 import 'event_item.dart';
 
 class EditEvent extends StatefulWidget {
-  Event event;
+  final Event event;
 
-  EditEvent({Key key, this.event}) : super(key: key,);
+  EditEvent({
+    Key? key,
+    required this.event
+  }) : super(key: key,);
 
   @override
   _EditEventState createState() => _EditEventState();
@@ -16,15 +19,23 @@ class EditEvent extends StatefulWidget {
 class _EditEventState extends State<EditEvent> {
   EventOperations eventOperations = EventOperations();
 
+  final formKey =  GlobalKey<FormState>();
+
   final _titleController = TextEditingController();
   final _descController = TextEditingController();
+
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    _titleController.text = widget.event.title;
-    _descController.text = widget.event.description;
-
+    _titleController.text = widget.event.title ?? '';
+    _descController.text = widget.event.description ?? '';
 
     return SafeArea(
       child: Scaffold(

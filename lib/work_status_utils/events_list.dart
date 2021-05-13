@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:project_testing/calendar_utils/edit_event_page_alt.dart';
 import 'package:project_testing/database/event_operations.dart';
 import 'package:project_testing/calendar_utils/event_item.dart';
-import 'package:project_testing/menus/snackbar.dart';
-import 'custom_dismissible.dart';
-import 'edit_event_page_alt.dart';
+import 'work_status_item.dart';
 
 class EventsList extends StatelessWidget {
   List<Event>? events;
@@ -24,35 +21,10 @@ class EventsList extends StatelessWidget {
           shrinkWrap: true,
           itemCount: events!.length ,
           itemBuilder: (BuildContext context, int index) {
-            return CustomDismissible(
+            return WorkStatusItem(
               key: UniqueKey(),
-
-              // CUSTOM DISMISSIBLE PARAMETER
-              item: events![index],
-
-              child: listItem(
-                  context: context,
-                  events: events ??= [],
-                  index: index,
-                  iconColor: Colors.white,
-                  iconBG: Theme
-                      .of(context)
-                      .accentColor,
-                  listBarColor: Theme
-                      .of(context)
-                      .focusColor
-              ),
-              onDismissed: (direction) {
-                if (direction == DismissDirection.endToStart) {
-                  eventOperations.deleteEvent(events![index]);
-                  EditableSnackBar.showSnackBar(
-                      context, 'Event has been deleted');
-                } else {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return EditEvent(event: events![index]);
-                  }));
-                }
-              },
+              events: events ?? [],
+              index: index,
             );
           },
         ),

@@ -7,19 +7,19 @@ class CustomDismissible<T> extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
 
   const CustomDismissible({
-    @required this.item,
-    @required this.child,
-    @required this.onDismissed,
-    Key key
+    required this.item,
+    required this.child,
+    required this.onDismissed,
+    Key? key
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-        key: ObjectKey(item),
-        background: leftSwipe(),
-        secondaryBackground: rightSwipe(),
-        child: child,
+      key: ObjectKey(item),
+      background: leftSwipe(),
+      secondaryBackground: rightSwipe(),
+      child: child,
       onDismissed: onDismissed
     );
   }

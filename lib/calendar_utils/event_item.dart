@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:project_testing/pages/work_status_page.dart';
 
 enum EventStatus {
   skipped,
@@ -9,13 +7,12 @@ enum EventStatus {
   complete
 }
 
-String eventStatusToString(EventStatus eventStatus) {
+String statusToString(EventStatus? eventStatus) {
   switch (eventStatus) {
     case EventStatus.skipped:
       return 'skipped';
     case EventStatus.onHold:
       return 'onHold';
-      break;
     case EventStatus.inProgress:
       return 'inProgress';
     default:
@@ -23,13 +20,12 @@ String eventStatusToString(EventStatus eventStatus) {
   }
 }
 
-EventStatus stringToEventStatus(String string) {
+EventStatus stringToStatus(String string) {
   switch (string) {
     case 'skipped':
       return EventStatus.skipped;
     case 'onHold':
       return EventStatus.onHold;
-      break;
     case 'inProgress':
       return EventStatus.inProgress;
     default:
@@ -37,38 +33,68 @@ EventStatus stringToEventStatus(String string) {
   }
 }
 
+final String eventTableName = 'eventTable';
+
+class EventTableFields {
+  static final String id = 'eventID';
+  static final String title = 'eventTitle';
+  static final String description = 'eventDesc';
+  static final String date = 'eventDate';
+  static final String status = 'eventStatus';
+}
 
 class Event {
-  int id;
-  String title;
-  String description;
+  int? id;
+  late String title;
+  late String description;
   DateTime date;
-  EventStatus eventStatus;
-  final DateFormat dateFormat = DateFormat('yyyy.MM.dd');
+  EventStatus? status;
 
   Event({
-    @required this.title,
-    @required this.description,
-    @required this.date,
-    @required this.eventStatus
+    this.id,
+    required this.title,
+    required this.description,
+    required this.date,
+    required this.status
   });
 
-  Event.fromMap(dynamic obj) {
-    this.id = obj['eventId'];
-    this.title = obj['eventTitle'];
-    this.description = obj['eventDesc'];
-    this.date = dateFormat.parse(obj['eventDate']);
-    this.eventStatus = stringToEventStatus(obj['eventStatus']);
+  Event copy({
+    int? id,
+    String? title,
+    String? description,
+    DateTime? date,
+    EventStatus? status
+  }) {
+    return Event(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      date: date ?? this.date,
+      status: status ?? this.status
+    );
+}
+
+
+
+  static Event fromMap(Map<String, dynamic> obj) {
+    return Event(
+      id: obj[EventTableFields.id] as int?,
+      title: obj[EventTableFields.title] as String,
+      description: obj[EventTableFields.description] as String,
+      date: DateFormat('yyyy.MM.dd').parse(obj[EventTableFields.date]),
+      status: stringToStatus(obj[EventTableFields.status])
+    );
+
   }
 
   Map<String, dynamic> toMap() {
-    var map = <String, dynamic>{
-      'eventTitle': title,
-      'eventDesc': description,
-      'eventDate' : dateFormat.format(date),
-      'eventStatus' : eventStatusToString(eventStatus)
+    return <String, dynamic>{
+      EventTableFields.id: id,
+      EventTableFields.title: title,
+      EventTableFields.description: description,
+      EventTableFields.date: DateFormat('yyyy.MM.dd').format(date),
+      EventTableFields.status: statusToString(status)
     };
-    return map;
   }
 
 }

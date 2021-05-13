@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_testing/menus/drawer_menus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:project_testing/database/event_operations.dart';
-import 'package:project_testing/pages/work_status_page.dart';
 import 'event_item.dart';
-import 'calendar.dart';
 
 class AddEvent extends StatefulWidget {
   DateTime dateSelected;
@@ -105,7 +103,7 @@ class _AddEventState extends State<AddEvent> {
                           '(untitled event)' : _titleController.text,
                         description: _descController.text,
                         date: date,
-                        eventStatus: EventStatus.inProgress
+                        status: EventStatus.inProgress
                       );
                       eventOperations.createEvent(event);
                       Navigator.of(context).pushReplacementNamed('home');
