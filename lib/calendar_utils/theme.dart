@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Light Theme
@@ -20,14 +19,14 @@ ThemeData light = ThemeData(
   // accentColor: Color.fromARGB(255, 50, 50, 50),
   primaryTextTheme: TextTheme(
     //Section Headings
-    headline1: GoogleFonts.montserrat(
+    headline1: TextStyle(
       color: Colors.blueGrey,
       // color: Color.fromARGB(255, 59, 57, 60),
       fontSize: 22,
       fontWeight: FontWeight.bold
     ),
     //Body Text
-    bodyText1: GoogleFonts.montserrat(
+    bodyText1: TextStyle(
       color: Colors.blueGrey,
       // color: Color.fromARGB(255, 105, 105, 100),
       fontSize: 16
@@ -46,52 +45,59 @@ ThemeData dark = ThemeData(
     ),
     primaryTextTheme: TextTheme(
       //Section Headings
-        headline1: GoogleFonts.montserrat(
+        headline1: TextStyle(
             color: Color.fromARGB(255, 250, 250, 250),
             fontSize: 22,
             fontWeight: FontWeight.bold
         ),
 
         //Body Text
-        bodyText1: GoogleFonts.montserrat(
+        bodyText1: TextStyle(
             color: Color.fromARGB(255, 66, 66, 66),
             fontSize: 16
         )
     )
 );
 
+Future<SharedPreferences> initPrefs() async {
+  return await SharedPreferences.getInstance();
+}
+
+
 class ThemeNotifier extends ChangeNotifier {
-  final String key = 'theme';
-  SharedPreferences _prefs;
-  bool _isDarkTheme;
+  final String key = "theme";
+  late SharedPreferences _prefs;
+  bool _isDarkTheme = false;
 
   bool get isDarkTheme => _isDarkTheme;
 
   ThemeNotifier() {
     _isDarkTheme = false;
-    _getThemePref();
+    _initPrefs();
   }
-  
-  void _getThemePref() async {
+
+  // Get saved theme preference
+  _getThemPref() async {
     await _initPrefs();
     _isDarkTheme = _prefs.getBool(key) ?? false;
     notifyListeners();
   }
-  
-  void _setThemePrefs() async {
+
+  // Switch theme
+  toggleTheme() {
+    _isDarkTheme = !_isDarkTheme;
+    _setThemePrefs();
+    notifyListeners();
+  }
+
+  // Set theme preference
+  _setThemePrefs() async {
     await _initPrefs();
     _prefs.setBool(key, _isDarkTheme);
   }
 
-  void _initPrefs() async {
-    if(_prefs == null) {
-      _prefs = await SharedPreferences.getInstance();
-    }
-  }
-
-  void toggleTheme() {
-    _isDarkTheme = !_isDarkTheme;
-    _setThemePrefs();
-    notifyListeners();
+  // Initiate a preference
+  _initPrefs() async {
+    _prefs = await SharedPreferences.getInstance();
   }
 }

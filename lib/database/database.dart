@@ -2,41 +2,49 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:project_testing/calendar_utils/event_item.dart';
 
 class DatabaseRepository {
-  DatabaseRepository._privateConstructor();
-
   static final DatabaseRepository instance =
-  DatabaseRepository._privateConstructor();
+  DatabaseRepository.init();
+
+  static Database? _database;
+
+  DatabaseRepository.init();
 
   final _databaseName = 'database';
   final _databaseVersion = 1;
 
-  static Database _database;
+
 
   Future<Database> get database async {
     if (_database != null) {
-      return _database;
-    } else {
-      _database = await _initDatabase();
+      print('A database exists');
+      return _database!;
     }
+    print('No database exists, starting _initDatabase()');
+    _database = await _initDatabase();
+    return _database!;
   }
 
   _initDatabase() async {
     Directory documents = await getApplicationDocumentsDirectory();
     String path = join(documents.path + _databaseName);
-    return await openDatabase(
-        path, version: _databaseVersion, onCreate: await onCreate);
+    return await openDatabase(path, version: _databaseVersion, onCreate: onCreate);
   }
 
   Future onCreate(Database db, int version) async {
+    final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
+    final textType = 'TEXT NOT NULL';
+
+
     await db.execute('''
-          CREATE TABLE eventTable (
-            eventId INTEGER PRIMARY KEY AUTOINCREMENT,
-            eventTitle STRING NOT NULL,
-            eventDesc STRING NOT NULL,
-            eventDate STRING NOT NULL,
-            eventStatus STRING NOT NULL
+          CREATE TABLE $eventTableName (
+            ${EventTableFields.id} $idType,
+            ${EventTableFields.title} $textType,
+            ${EventTableFields.description} $textType,
+            ${EventTableFields.date} $textType,
+            ${EventTableFields.status} $textType
           )
           ''');
   }

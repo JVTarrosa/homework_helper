@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_testing/menus/drawer_menus.dart';
 import 'package:project_testing/database/event_operations.dart';
-import 'package:project_testing/calendar_utils/status_events_list.dart';
+import 'package:project_testing/work_status_utils/events_list.dart';
 
 class WorkStatus extends StatefulWidget {
   @override
@@ -53,16 +53,19 @@ class _WorkStatusState extends State<WorkStatus> {
               ),
             ),
           ),
-          body: FutureBuilder(
-            future: eventOperations.getAllEvents(),
-            builder: (context, snapshot){
-              if (snapshot.hasError) {
-                print('snapshot error');
-              }
-              var data = snapshot.data;
-              return snapshot.hasData ? StatusEventsList(data) :
-              new SizedBox();
-            },
+          body: Container(
+            color: Theme.of(context).primaryColor,
+            child: FutureBuilder(
+              future: eventOperations.getAllEvents(),
+              builder: (context, snapshot){
+                var data;
+                if (snapshot.hasError) {
+                  print('snapshot error');
+                }
+                data = snapshot.data;
+                return snapshot.hasData ? EventsList(data) : SizedBox();
+              },
+            ),
           )
       ),
     );
