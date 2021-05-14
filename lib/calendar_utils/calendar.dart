@@ -34,16 +34,16 @@ class _CalendarState extends State<Calendar> {
   }
 
   void _fetchEvents() async{
-    print('_fetchEvents() is running');
+    print('CALENDAR METHOD _fetchEvents() IS RUNNING');
     events = {};
     List<Event> allEvents = await eventOperations.getAllEvents();
     allEvents.forEach((event) {
       if(events.containsKey(event.date)){
-        print('EVENT ADDED TO EXISTING DATE ON MAP');
+        print('EVENT ADDED TO EXISTING DATE ON MAP: events[$events.date].add($event)');
         events[event.date]!.add(event);
       }
       else{
-        print('NEW DATE ADDED TO MAP');
+        print('NEW DATE ADDED TO MAP: events[$events.date] = [$event]');
         events[event.date] = [event];
       }
     }
@@ -54,9 +54,12 @@ class _CalendarState extends State<Calendar> {
 
   List<Event> getEventsThisDay(DateTime date) {
 
-    print('EVENTS MAP $events');
-    print('Returned Results for events[$date]: ${events[date]}');
-    return events[date] ?? [];
+    print('\nEVENTS MAP $events');
+    print('EVENTS MAP KEYS ${events.keys.toList()}');
+    print('DATE VALUE: $date');
+    print('events[$date] is null?: ${events[date] == null}');
+    print('');
+    return events[DateFormat('yyyy.MM.dd').parse(DateFormat('yyyy.MM.dd').format(date))] ?? [];
   }
 
   //Calendar Widget
@@ -163,14 +166,6 @@ class _CalendarState extends State<Calendar> {
               children: [
                 // CALENDAR WIDGET CREATED ABOVE
                 calendar(),
-
-                ...getEventsThisDay(selectedDay).map(
-                      (Event event) => ListTile(
-                    title: Text(
-                      event.title,
-                    ),
-                  ),
-                ),
 
                 //FUTURE BUILDER FOR EVENT LIST
                 FutureBuilder(

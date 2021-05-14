@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_testing/menus/drawer_menus.dart';
+import 'package:project_testing/study_lock_utils/pomodoro_button.dart';
 
 class StudyLock extends StatefulWidget {
   @override
@@ -50,9 +51,12 @@ class _StudyLockState extends State<StudyLock> {
           ),
           body: Container(
             child: Center(
-              child: Text(
-                  'Change Center widget to edit the body'
-              ),
+
+
+              // POMODORO BUTTON
+              child: PomodoroButton()
+
+
             ),
           )
       ),
