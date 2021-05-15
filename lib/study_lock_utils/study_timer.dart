@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:project_testing/study_lock_utils/time_input.dart';
 
 import 'package:flutter/material.dart';
 import 'pause_view.dart';
@@ -8,26 +9,22 @@ import 'pause_view.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class Pomodoro extends StatefulWidget {
-  final int studyTime;
-  final int pauseTime;
-  final int cycle;
+  final TimeInput input;
   @override
-  _PomodoroState createState() => _PomodoroState(studyTime, pauseTime, cycle);
+  _PomodoroState createState() => _PomodoroState(input);
 
-  Pomodoro(this.studyTime, this.pauseTime, this.cycle);
+  Pomodoro(this.input);
 }
 
 class _PomodoroState extends State<Pomodoro> {
+  final TimeInput input;
+  final audio = AudioCache();
   double percent = 0;
-  int studyTime = 0;
   int time = 0;
-
   int inputTime = 0;
-  int pauseTime;
-  int cycle;
 
-  _PomodoroState(this.studyTime, this.pauseTime, this.cycle) {
-    inputTime = studyTime;
+  _PomodoroState(this.input) {
+    inputTime = input.studyTime;
     _startTimer();
   }
 
@@ -46,17 +43,18 @@ class _PomodoroState extends State<Pomodoro> {
           }
           percent = (oldTime - time) / oldTime;
         } else {
+          audio.play('alert.mp3');
           percent = 0;
-          inputTime = studyTime;
+          inputTime = input.studyTime;
           timer.cancel();
-          // var x = AudioPlayer();
-          // x.play('assets/stg_logo.png', isLocal: true);
-          if (cycle > 0) {
+          if (input.cycle > 0) {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        PomodoroPause(studyTime, pauseTime, cycle - 1)));
+                    builder: (context) => PomodoroPause(TimeInput(
+                        studyTime: input.studyTime,
+                        pauseTime: input.pauseTime,
+                        cycle: input.cycle - 1))));
           } else {
             Navigator.pop(context);
           }
@@ -70,13 +68,13 @@ class _PomodoroState extends State<Pomodoro> {
       final willpop = await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text("Warning Timer has stated"),
-            actions: <Widget>[
-              TextButton(
-                  onPressed: () => Navigator.pop(context, false),
-                  child: Text("back"))
-            ],
-          ));
+                title: Text("Warning Timer has started"),
+                actions: <Widget>[
+                  TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: Text("back"))
+                ],
+              ));
       return willpop;
     } else {
       Navigator.pop(context);
@@ -120,13 +118,15 @@ class _PomodoroState extends State<Pomodoro> {
                         radius: 250.0,
                         lineWidth: 20.0,
                         progressColor: Colors.white,
-                        center: Text(
-                          "$inputTime",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 80.0,
-                          ),
-                        ),
+                        center: TextButton(
+                            onPressed: () => audio.play('alert.mp3'),
+                            child: Text(
+                              "$inputTime",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 80.0,
+                              ),
+                            )),
                       ),
                     ),
                     SizedBox(
@@ -188,7 +188,7 @@ class _PomodoroState extends State<Pomodoro> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          "$studyTime",
+                                          "${input.studyTime}",
                                           style: TextStyle(fontSize: 20.0),
                                         ),
                                       )
@@ -228,7 +228,7 @@ class _PomodoroState extends State<Pomodoro> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          "$pauseTime",
+                                          "${input.pauseTime}",
                                           style: TextStyle(fontSize: 20.0),
                                         ),
                                       )
@@ -268,7 +268,7 @@ class _PomodoroState extends State<Pomodoro> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          "$cycle",
+                                          "${input.cycle}",
                                           style: TextStyle(fontSize: 20.0),
                                         ),
                                       )
@@ -280,40 +280,40 @@ class _PomodoroState extends State<Pomodoro> {
                                 padding: EdgeInsets.symmetric(vertical: 28.0),
                                 child: ElevatedButton(
                                     onPressed: () =>
-                                    // Navigator.pop(context, true),
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                          title: Text(
-                                              "Do you want to cancel study timer?"),
-                                          actions: <Widget>[
-                                            TextButton(
-                                                child: Text(
-                                                  "yes",
-                                                  style: TextStyle(
-                                                      color:
-                                                      Colors.red),
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.pop(
-                                                      context);
-                                                  Navigator.pop(
-                                                      context);
-                                                }),
-                                            TextButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(
-                                                        context, false),
-                                                child: Text("no"))
-                                          ],
-                                        )),
+                                        // Navigator.pop(context, true),
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                                  title: Text(
+                                                      "Do you want to cancel study timer?"),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                        child: Text(
+                                                          "yes",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.red),
+                                                        ),
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                          Navigator.pop(
+                                                              context);
+                                                        }),
+                                                    TextButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context, false),
+                                                        child: Text("no"))
+                                                  ],
+                                                )),
                                     style: ElevatedButton.styleFrom(
                                         primary: Colors.red, // background
                                         onPrimary: Colors.white,
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(
                                                 100.0)) // foreground
-                                    ),
+                                        ),
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Text(
