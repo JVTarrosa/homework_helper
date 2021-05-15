@@ -7,10 +7,10 @@ import 'event_item.dart';
 class EditEvent extends StatefulWidget {
   final Event event;
 
-  EditEvent({
-    Key? key,
-    required this.event
-  }) : super(key: key,);
+  EditEvent({Key? key, required this.event})
+      : super(
+          key: key,
+        );
 
   @override
   _EditEventState createState() => _EditEventState();
@@ -19,23 +19,20 @@ class EditEvent extends StatefulWidget {
 class _EditEventState extends State<EditEvent> {
   EventOperations eventOperations = EventOperations();
 
-  final formKey =  GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   final _titleController = TextEditingController();
   final _descController = TextEditingController();
 
-
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
   Widget build(BuildContext context) {
-
-    _titleController.text = widget.event.title ?? '';
-    _descController.text = widget.event.description ?? '';
+    // _titleController.text = widget.event.title ?? '';
+    // _descController.text = widget.event.description ?? '';
 
     return SafeArea(
       child: Scaffold(
@@ -74,7 +71,6 @@ class _EditEventState extends State<EditEvent> {
           ),
         ),
         body: Center(
-
           // INPUT BARS
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -84,8 +80,7 @@ class _EditEventState extends State<EditEvent> {
                 child: TextField(
                   controller: _titleController,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Event Title'),
+                      border: OutlineInputBorder(), labelText: 'Event Title'),
                 ),
               ),
               Padding(
@@ -106,10 +101,8 @@ class _EditEventState extends State<EditEvent> {
                 width: 200,
                 child: ElevatedButton(
                     style: ButtonStyle(
-
                       backgroundColor: MaterialStateProperty.all(
-                          Theme.of(context).accentColor
-                      ),
+                          Theme.of(context).accentColor),
                     ),
                     onPressed: () {
                       widget.event.title = _titleController.text;
@@ -120,10 +113,7 @@ class _EditEventState extends State<EditEvent> {
                     child: Center(
                       child: Text(
                         'Edit Event',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25
-                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 25),
                       ),
                     )),
               )

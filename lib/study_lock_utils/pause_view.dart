@@ -1,33 +1,30 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:project_testing/study_lock_utils/time_input.dart';
 import 'study_timer.dart';
 
 import 'package:percent_indicator/percent_indicator.dart';
 
 class PomodoroPause extends StatefulWidget {
-  final int studyTime;
-  final int pauseTime;
-  final int cycle;
+  final TimeInput input;
   @override
-  _PomodoroPauseState createState() =>
-      _PomodoroPauseState(studyTime, pauseTime, cycle);
+  _PomodoroPauseState createState() => _PomodoroPauseState(input);
 
-  PomodoroPause(this.studyTime, this.pauseTime, this.cycle);
+  PomodoroPause(this.input);
 }
 
 class _PomodoroPauseState extends State<PomodoroPause> {
+  final TimeInput input;
+  final audio = AudioCache();
   double percent = 0;
-  int studyTime = 0;
   int time = 0;
-
   int inputTime = 0;
-  int pauseTime;
-  int cycle;
 
-  _PomodoroPauseState(this.studyTime, this.pauseTime, this.cycle) {
-    inputTime = pauseTime;
+  _PomodoroPauseState(this.input) {
+    inputTime = input.pauseTime;
     _startTimer();
   }
 
@@ -46,14 +43,13 @@ class _PomodoroPauseState extends State<PomodoroPause> {
           }
           percent = (oldTime - time) / oldTime;
         } else {
+          audio.play('alert.mp3');
           percent = 0;
-          inputTime = pauseTime;
+          inputTime = input.pauseTime;
           timer.cancel();
 
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Pomodoro(studyTime, pauseTime, cycle)));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => Pomodoro(input)));
         }
       });
     });
@@ -64,13 +60,13 @@ class _PomodoroPauseState extends State<PomodoroPause> {
       final willpop = await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text("Warning Timer has stated"),
-            actions: <Widget>[
-              TextButton(
-                  onPressed: () => Navigator.pop(context, false),
-                  child: Text("back"))
-            ],
-          ));
+                title: Text("Warning Timer has started"),
+                actions: <Widget>[
+                  TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: Text("back"))
+                ],
+              ));
       return willpop;
     } else {
       Navigator.pop(context);
@@ -183,7 +179,7 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          "$studyTime",
+                                          "${input.studyTime}",
                                           style: TextStyle(fontSize: 20.0),
                                         ),
                                       )
@@ -223,7 +219,7 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          "$pauseTime",
+                                          "${input.pauseTime}",
                                           style: TextStyle(fontSize: 20.0),
                                         ),
                                       )
@@ -263,7 +259,7 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          "$cycle",
+                                          "${input.cycle}",
                                           style: TextStyle(fontSize: 20.0),
                                         ),
                                       )
@@ -275,40 +271,40 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                                 padding: EdgeInsets.symmetric(vertical: 28.0),
                                 child: ElevatedButton(
                                     onPressed: () =>
-                                    // Navigator.pop(context, true),
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                          title: Text(
-                                              "Do you want to cancel study timer?"),
-                                          actions: <Widget>[
-                                            TextButton(
-                                                child: Text(
-                                                  "yes",
-                                                  style: TextStyle(
-                                                      color:
-                                                      Colors.red),
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.pop(
-                                                      context);
-                                                  Navigator.pop(
-                                                      context);
-                                                }),
-                                            TextButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(
-                                                        context, false),
-                                                child: Text("no"))
-                                          ],
-                                        )),
+                                        // Navigator.pop(context, true),
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                                  title: Text(
+                                                      "Do you want to cancel study timer?"),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                        child: Text(
+                                                          "yes",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.red),
+                                                        ),
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                          Navigator.pop(
+                                                              context);
+                                                        }),
+                                                    TextButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context, false),
+                                                        child: Text("no"))
+                                                  ],
+                                                )),
                                     style: ElevatedButton.styleFrom(
                                         primary: Colors.red, // background
                                         onPrimary: Colors.white,
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(
                                                 100.0)) // foreground
-                                    ),
+                                        ),
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Text(
@@ -318,7 +314,7 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                                             fontSize: 20.0),
                                       ),
                                     )),
-                              )
+                              ),
                             ],
                           ),
                         ),

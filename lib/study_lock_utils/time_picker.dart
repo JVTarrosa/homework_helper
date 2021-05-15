@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_testing/study_lock_utils/time_input.dart';
 import 'study_timer.dart';
 import 'package:numberpicker/numberpicker.dart';
 
@@ -8,9 +9,7 @@ class NumPicker extends StatefulWidget {
 }
 
 class _NumPickerState extends State<NumPicker> {
-  int min = 0;
-  int pause = 0;
-  int cycle = 0;
+  TimeInput input = TimeInput(studyTime: 0, pauseTime: 0, cycle: 0);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,12 +56,12 @@ class _NumPickerState extends State<NumPicker> {
                               )),
                           height: 150.0,
                           child: NumberPicker(
-                            value: min,
+                            value: input.studyTime,
                             minValue: 0,
                             maxValue: 1440,
                             onChanged: (val) {
                               setState(() {
-                                min = val;
+                                input.studyTime = val;
                               });
                             },
                           ),
@@ -101,12 +100,12 @@ class _NumPickerState extends State<NumPicker> {
                           ),
                           height: 150.0,
                           child: NumberPicker(
-                            value: pause,
+                            value: input.pauseTime,
                             minValue: 0,
                             maxValue: 120,
                             onChanged: (val) {
                               setState(() {
-                                pause = val;
+                                input.pauseTime = val;
                               });
                             },
                           ),
@@ -145,12 +144,12 @@ class _NumPickerState extends State<NumPicker> {
                               )),
                           height: 150.0,
                           child: NumberPicker(
-                            value: cycle,
+                            value: input.cycle,
                             minValue: 0,
                             maxValue: 24,
                             onChanged: (val) {
                               setState(() {
-                                cycle = val;
+                                input.cycle = val;
                               });
                             },
                           ),
@@ -176,7 +175,7 @@ class _NumPickerState extends State<NumPicker> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Pomodoro(min, pause, cycle)));
+                            builder: (context) => Pomodoro(input)));
                   })
             ],
           ),
