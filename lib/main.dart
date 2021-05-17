@@ -6,7 +6,6 @@ import 'package:project_testing/pages/template%20page.dart';
 import 'package:project_testing/pages/work_status_page.dart';
 import 'package:provider/provider.dart';
 import 'pages/home_page.dart';
-import 'package:project_testing/calendar_utils/add_event_page.dart';
 
 void main() {
   runApp(MyApp());
