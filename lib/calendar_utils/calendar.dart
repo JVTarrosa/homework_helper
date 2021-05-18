@@ -7,8 +7,6 @@ import 'event_item.dart';
 import 'package:project_testing/database/event_operations.dart';
 import 'package:project_testing/calendar_utils/events_list.dart';
 
-
-
 class Calendar extends StatefulWidget {
   @override
   _CalendarState createState() => _CalendarState();
@@ -25,62 +23,50 @@ class _CalendarState extends State<Calendar> {
 
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
-  
+
   @override
   void initState() {
-    // selectedEvents = {};
     super.initState();
     _fetchEvents();
   }
 
-  void _fetchEvents() async{
+  void _fetchEvents() async {
     print('CALENDAR METHOD _fetchEvents() IS RUNNING');
     events = {};
     List<Event> allEvents = await eventOperations.getAllEvents();
     allEvents.forEach((event) {
-      if(events.containsKey(event.date)){
-        print('EVENT ADDED TO EXISTING DATE ON MAP: events[$events.date].add($event)');
+      if (events.containsKey(event.date)) {
+        print(
+            'EVENT ADDED TO EXISTING DATE ON MAP: events[$events.date].add($event)');
         events[event.date]!.add(event);
-      }
-      else{
+      } else {
         print('NEW DATE ADDED TO MAP: events[$events.date] = [$event]');
         events[event.date] = [event];
       }
-    }
-    );
+    });
     setState(() {});
     print('EVENTS MAP $events');
   }
 
   List<Event> getEventsThisDay(DateTime date) {
-    //
-    // print('\nEVENTS MAP $events');
-    // print('EVENTS MAP KEYS ${events.keys.toList()}');
-    // print('DATE VALUE: $date');
-    // print('events[$date] is null?: ${events[date] == null}');
-    // print('');
-    return events[DateFormat('yyyy.MM.dd').parse(DateFormat('yyyy.MM.dd').format(date))] ?? [];
+    return events[DateFormat('yyyy.MM.dd')
+            .parse(DateFormat('yyyy.MM.dd').format(date))] ??
+        [];
   }
 
   //Calendar Widget
   Widget calendar() {
     return Container(
       key: Key('calendar_container'),
-      margin:  EdgeInsets.fromLTRB(10, 0, 10, 10),
+      margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            spreadRadius: 10,
-            blurRadius: 5
-          )
-        ]
-      ),
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(color: Colors.black12, spreadRadius: 10, blurRadius: 5)
+          ]),
       child: TableCalendar(
-
         eventLoader: getEventsThisDay,
 
         // This formats the header of the calendar where the month label is
@@ -88,10 +74,9 @@ class _CalendarState extends State<Calendar> {
           formatButtonVisible: false,
           titleCentered: true,
           titleTextStyle: TextStyle(
-            color: Theme.of(context).accentColor,
-            fontSize: 23,
-            fontWeight: FontWeight.bold
-          ),
+              color: Theme.of(context).accentColor,
+              fontSize: 23,
+              fontWeight: FontWeight.bold),
         ),
 
         calendarStyle: CalendarStyle(
@@ -99,38 +84,30 @@ class _CalendarState extends State<Calendar> {
 
           // This formats the highlight for the selected day on Calendar
           selectedDecoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: Theme.of(context).focusColor
-          ),
-          selectedTextStyle: TextStyle(
-            color: Colors.white
-          ),
+              shape: BoxShape.rectangle, color: Theme.of(context).focusColor),
+          selectedTextStyle: TextStyle(color: Colors.white),
 
-            // This formats the highlight for the current day on Calendar
+          // This formats the highlight for the current day on Calendar
           todayDecoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Theme.of(context).focusColor
-          ),
-          todayTextStyle: TextStyle(
-              color: Colors.white70
+              shape: BoxShape.circle, color: Theme.of(context).focusColor),
+          todayTextStyle: TextStyle(color: Colors.white70),
+          defaultTextStyle: TextStyle(color: Theme.of(context).accentColor),
+
+          markerDecoration: BoxDecoration(
+            color: Theme.of(context).accentColor,
+            borderRadius: BorderRadius.circular(10),
           ),
 
-          defaultTextStyle: TextStyle(
-            color: Theme.of(context).accentColor
-          )
         ),
 
         daysOfWeekStyle: DaysOfWeekStyle(
           weekdayStyle: TextStyle(
-            color: Theme.of(context).accentColor,
-            fontWeight: FontWeight.bold
-          ),
+              color: Theme.of(context).accentColor,
+              fontWeight: FontWeight.bold),
           weekendStyle: TextStyle(
-            color: Theme.of(context).accentColor,
-              fontWeight: FontWeight.bold
-          ),
+              color: Theme.of(context).accentColor,
+              fontWeight: FontWeight.bold),
         ),
-
 
         firstDay: DateTime.utc(1990),
         lastDay: DateTime.utc(2050),
@@ -152,54 +129,89 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: ListView(
-        children: [
-          Container(
+      body: ListView(children: [
+        Container(
             padding: EdgeInsets.all(10),
             child: Column(
               children: [
                 // CALENDAR WIDGET CREATED ABOVE
                 calendar(),
 
-                //FUTURE BUILDER FOR EVENT LIST
+                titledBorder(
+                    'Events This Day (${DateFormat('MM/dd').format(selectedDay)})'
+                ),
+
+                // EVENTS LIST FOR THIS DAY
                 FutureBuilder(
                   future: eventOperations.getEventsForDay(selectedDay),
-                  builder: (context, AsyncSnapshot<List<Event>> snapshot){
+                  builder: (context, AsyncSnapshot<List<Event>> snapshot) {
                     if (snapshot.hasError) {
                       print('snapshot error');
                     }
                     var data = snapshot.data;
-                    return snapshot.hasData ? EventsList(data) : Text('no data');
+                    return snapshot.hasData
+                        ? EventsList(data, _fetchEvents)
+                        : Text('no data');
                   },
-                )
+                ),
+
+                titledBorder(
+                  'Upcoming Events'
+                ),
+
+                // CLOSE EVENTS LIST
+                FutureBuilder(
+                  future: eventOperations.getCloseEvents(),
+                  builder: (context, AsyncSnapshot<List<Event>> snapshot) {
+                    if (snapshot.hasError) {
+                      print('snapshot error');
+                    }
+                    var data = snapshot.data;
+                    return snapshot.hasData
+                        ? EventsList(data, _fetchEvents)
+                        : Text('no data');
+                  },
+                ),
+
               ],
-            )
-          ),
-        ]
-      ),
-      
-      
-      
+            )),
+      ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => AddEvent(dateSelected: selectedDay))
-          );
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => AddEvent(dateSelected: selectedDay)));
           _fetchEvents();
         },
-        child: Icon(
-          Icons.add
-        ),
+        child: Icon(Icons.add),
       ),
     );
   }
 
-
-
-
-
-
+  Widget titledBorder(String borderTitle) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '$borderTitle',
+          style: TextStyle(
+              color: Theme.of(context).accentColor,
+              fontWeight: FontWeight.bold),
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                height: 1,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).accentColor
+                ),
+              ),
+            )
+          ],
+        )
+      ],
+    );
+  }
 }

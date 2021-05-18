@@ -15,8 +15,6 @@ class DatabaseRepository {
   final _databaseName = 'database';
   final _databaseVersion = 1;
 
-
-
   Future<Database> get database async {
     if (_database != null) {
       print('A database exists');
@@ -37,6 +35,7 @@ class DatabaseRepository {
     final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     final textType = 'TEXT NOT NULL';
     final intType = 'INTEGER NOT NULL';
+    final boolType = 'BOOLEAN NOT NULL';
 
 
     await db.execute('''
@@ -46,7 +45,8 @@ class DatabaseRepository {
             ${EventTableFields.description} $textType,
             ${EventTableFields.date} $textType,
             ${EventTableFields.status} $textType,
-            ${EventTableFields.icon} $intType
+            ${EventTableFields.icon} $intType,
+            ${EventTableFields.isClose} $intType
           )
           ''');
   }

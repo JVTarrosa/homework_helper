@@ -51,7 +51,6 @@ class EventOperations {
             'DESCRIPTION: ${event.description}\n'
             'DATE: ${event.date} \n'
             'EVENT STATUS: ${event.status}\n'
-
             'EVENT ICON: ${event.icon}'
     ));
     // DEBUGGING PRINT STATEMENT
@@ -65,10 +64,34 @@ class EventOperations {
         where: '${EventTableFields.date}=?',
         whereArgs: [DateFormat('yyyy.MM.dd').format(date)]);
     List<Event> events =
-        eventList.map((event) => Event.fromMap(event)).toList();
+    eventList.map((event) => Event.fromMap(event)).toList();
 
     // DEBUGGING PRINT STATEMENT
     print('RUNNING METHOD getEventsForDay($date)');
+    events.forEach((event) => print(
+        'LISTED EVENT: \n'
+            'ID: ${event.id}\n'
+            'TITLE: ${event.title}\n'
+            'DESCRIPTION: ${event.description}\n'
+            'DATE: ${event.date} \n'
+            'EVENT STATUS: ${event.status}\n'
+            'EVENT ICON: ${event.icon}'
+    ));
+    // DEBUGGING PRINT STATEMENT
+
+    return events;
+  }
+
+  Future<List<Event>> getCloseEvents() async {
+    final db = await dbProvider.database;
+    List<Map<String, dynamic>> eventList = await db.query(eventTableName,
+        where: '${EventTableFields.isClose}=?',
+        whereArgs: [1]);
+    List<Event> events =
+        eventList.map((event) => Event.fromMap(event)).toList();
+
+    // DEBUGGING PRINT STATEMENT
+    print('RUNNING METHOD getCloseEvents()');
     events.forEach((event) => print(
         'LISTED EVENT: \n'
             'ID: ${event.id}\n'

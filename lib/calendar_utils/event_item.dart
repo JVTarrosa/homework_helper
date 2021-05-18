@@ -59,6 +59,7 @@ class EventTableFields {
   static final String date = 'eventDate';
   static final String status = 'eventStatus';
   static final String icon = 'eventIcon';
+  static final String isClose = 'eventIsClose';
 }
 
 class Event {
@@ -67,8 +68,8 @@ class Event {
   late String description;
   DateTime date;
   EventStatus? status;
-
   int icon;
+  late bool isClose;
 
   Event({
     this.id,
@@ -77,7 +78,9 @@ class Event {
     required this.date,
     required this.status,
     required this.icon
-  });
+  }) {
+   isClose = DateTime.now().isAfter(date.subtract(Duration(days: 5)));
+  }
 
   Event copy({
     int? id,
@@ -93,7 +96,7 @@ class Event {
       description: description ?? this.description,
       date: date ?? this.date,
       status: status ?? this.status,
-      icon: icon ?? this.icon
+      icon: icon ?? this.icon,
     );
 }
 
@@ -118,7 +121,8 @@ class Event {
       EventTableFields.description: description,
       EventTableFields.date: DateFormat('yyyy.MM.dd').format(date),
       EventTableFields.status: statusToString(status),
-      EventTableFields.icon: icon
+      EventTableFields.icon: icon,
+      EventTableFields.isClose: isClose ? 1 : 0
     };
   }
 

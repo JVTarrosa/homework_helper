@@ -6,57 +6,67 @@ import 'package:project_testing/database/event_operations.dart';
 import 'package:project_testing/calendar_utils/event_item.dart';
 import 'package:project_testing/menus/snackbar.dart';
 import 'custom_dismissible.dart';
+import 'package:intl/intl.dart';
 import 'edit_event_page_alt.dart';
 
 class EventsList extends StatelessWidget {
   List<Event>? events;
+  Function refreshCalendar;
 
-  EventsList(this.events, {Key? key}) : super(key: key);
+  EventsList(this.events, this.refreshCalendar, {Key? key}) : super(key: key);
   EventOperations eventOperations = EventOperations();
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: ScrollPhysics(),
-      child: Column(children: [
-        ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: events!.length ,
-          itemBuilder: (BuildContext context, int index) {
-            return CustomDismissible(
-              key: UniqueKey(),
+    return events!.isEmpty
+        ? Row(
+            children: [
+              Expanded(
+                child: Center(
+                  child: Text(
+                    '(No Events)',
+                    style: TextStyle(
+                        color: Colors.grey, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              )
+            ],
+          )
+        : Column(children: [
+            ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: events!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return CustomDismissible(
+                  key: UniqueKey(),
 
-              // CUSTOM DISMISSIBLE PARAMETER
-              item: events![index],
+                  // CUSTOM DISMISSIBLE PARAMETER
+                  item: events![index],
 
-              child: listItem(
-                  context: context,
-                  events: events ??= [],
-                  index: index,
-                  iconBG: Theme
-                      .of(context)
-                      .accentColor,
-                  listBarColor: Theme
-                      .of(context)
-                      .focusColor
-              ),
-              onDismissed: (direction) {
-                if (direction == DismissDirection.endToStart) {
-                  eventOperations.deleteEvent(events![index]);
-                  EditableSnackBar.showSnackBar(
-                      context, 'Event has been deleted');
-                } else {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return EditEvent(event: events![index]);
-                  }));
-                }
+                  child: listItem(
+                      context: context,
+                      events: events ??= [],
+                      index: index,
+                      iconBG: Theme.of(context).accentColor,
+                      listBarColor: Theme.of(context).focusColor),
+                  onDismissed: (direction) {
+                    if (direction == DismissDirection.endToStart) {
+                      eventOperations.deleteEvent(events![index]);
+                      refreshCalendar;
+                      EditableSnackBar.showSnackBar(
+                          context, 'Event has been deleted');
+                    } else {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return EditEvent(event: events![index]);
+                      }));
+                    }
+                  },
+                );
               },
-            );
-          },
-        ),
-      ]),
-    );
+            ),
+          ]);
   }
 }
 
@@ -74,10 +84,7 @@ Widget listItem({
         color: listBarColor,
         // borderRadius: BorderRadius.circular(10)
       ),
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
+      width: MediaQuery.of(context).size.width,
       height: 80,
       child: Row(
         children: [
@@ -96,7 +103,8 @@ Widget listItem({
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('ID: ${events[index].id}'),
+                  Text('${DateFormat('MM/dd/yyyy').format(events[index].date)}',
+                      style: TextStyle(color: Colors.white)),
                   Text(
                     events[index].title.length < 25
                         ? '${events[index].title}'
