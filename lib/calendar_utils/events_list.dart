@@ -11,27 +11,29 @@ import 'edit_event_page_alt.dart';
 
 class EventsList extends StatelessWidget {
   List<Event>? events;
-  Function refreshCalendar;
 
-  EventsList(this.events, this.refreshCalendar, {Key? key}) : super(key: key);
+  EventsList(this.events, {Key? key}) : super(key: key);
   EventOperations eventOperations = EventOperations();
 
   @override
   Widget build(BuildContext context) {
     return events!.isEmpty
-        ? Row(
-            children: [
-              Expanded(
-                child: Center(
-                  child: Text(
-                    '(No Events)',
-                    style: TextStyle(
-                        color: Colors.grey, fontWeight: FontWeight.bold),
+        ? Container(
+          height: 40,
+          child: Row(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      '(No Events)',
+                      style: TextStyle(
+                          color: Colors.grey, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-              )
-            ],
-          )
+                )
+              ],
+            ),
+        )
         : Column(children: [
             ListView.builder(
               physics: NeverScrollableScrollPhysics(),
@@ -49,11 +51,12 @@ class EventsList extends StatelessWidget {
                       events: events ??= [],
                       index: index,
                       iconBG: Theme.of(context).accentColor,
-                      listBarColor: Theme.of(context).focusColor),
+                      listBarColor: Theme.of(context).focusColor,
+                      statusMarkerColor: statusColor(events![index].status),
+                  ),
                   onDismissed: (direction) {
                     if (direction == DismissDirection.endToStart) {
                       eventOperations.deleteEvent(events![index]);
-                      refreshCalendar;
                       EditableSnackBar.showSnackBar(
                           context, 'Event has been deleted');
                     } else {
@@ -76,6 +79,7 @@ Widget listItem({
   required int index,
   required Color iconBG,
   required Color listBarColor,
+  required Color statusMarkerColor,
 }) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 4.0),
@@ -96,6 +100,10 @@ Widget listItem({
             width: 80,
             height: 80,
             child: Image.asset('assets/event_icons/${events[index].icon}.png'),
+          ),
+          Container(
+            color: statusMarkerColor,
+            width: 5,
           ),
           Expanded(
             child: Center(
