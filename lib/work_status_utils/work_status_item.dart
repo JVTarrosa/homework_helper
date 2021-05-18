@@ -11,7 +11,8 @@ class CollapsingEventItem extends StatefulWidget {
   CollapsingEventItem(this.events, this.index, {Key? key}) : super(key: key);
 
   @override
-  _CollapsingEventItemState createState() => _CollapsingEventItemState(events, index);
+  _CollapsingEventItemState createState() =>
+      _CollapsingEventItemState(events, index);
 }
 
 class _CollapsingEventItemState extends State<CollapsingEventItem> {
@@ -40,14 +41,11 @@ class _CollapsingEventItemState extends State<CollapsingEventItem> {
           ),
           onPressed: () => setState(() => _isOpen = false),
         ),
-        crossFadeState: _isOpen ?
-        CrossFadeState.showSecond :
-        CrossFadeState.showFirst,
-        duration: Duration(milliseconds: 200)
-    );
+        crossFadeState:
+            _isOpen ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+        duration: Duration(milliseconds: 200));
   }
 }
-
 
 class WorkStatusItem extends StatefulWidget {
   List<Event> events;
@@ -96,179 +94,168 @@ class _WorkStatusItemState extends State<WorkStatusItem> {
       // ACTUAL CONTAINER
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black54,
-              blurRadius: 5,
-              spreadRadius: 3,
-              offset: Offset.fromDirection(20)
-            )
-          ]
-        ),
-        child: Column(children: [
-          //TITLE CONTAINER
-          Container(
-            decoration: BoxDecoration(
-              color: statusColor(events[index].status),
-              borderRadius: BorderRadius.circular(10)
-            ),
-            width: MediaQuery.of(context).size.width,
-            height: 80,
-            child: Row(
-              children: [
-                SizedBox(width: 2),
-                Container(
-                  decoration: BoxDecoration(
-                    color: statusColor(events[index].status),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      width: 2,
-                      color: Colors.white
-                    )
-                  ),
-                  width: 75,
-                  height: 75,
-                  child: Center(
-                      child: Image.asset('assets/event_icons/${events[index].icon}.png')
-                  )
-                ),
-                Expanded(
-                  child: Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('${DateFormat('MM/dd/yyyy').format(events[index].date)}',
-                            style: TextStyle(color: Colors.white)),
-                        Text(
-                          events[index].title.length < 25
-                              ? '${events[index].title}'
-                              : events[index].title.substring(0, 25) + '...',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: events[index].title.length < 20 ? 25 : 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
+            borderRadius: BorderRadius.circular(10),
+            color: Theme.of(context).primaryColor,
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black54,
+                  blurRadius: 5,
+                  spreadRadius: 3,
+                  offset: Offset.fromDirection(20))
+            ]),
+        child: Column(
+          children: [
+            //TITLE CONTAINER
+            Container(
+              decoration: BoxDecoration(
+                  color: statusColor(events[index].status),
+                  borderRadius: BorderRadius.circular(10)),
+              width: MediaQuery.of(context).size.width,
+              height: 80,
+              child: Row(
+                children: [
+                  SizedBox(width: 2),
+                  Container(
+                      decoration: BoxDecoration(
+                          color: statusColor(events[index].status),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(width: 2, color: Colors.white)),
+                      width: 75,
+                      height: 75,
+                      child: Center(
+                          child: Image.asset(
+                              'assets/event_icons/${events[index].icon}.png'))),
+                  Expanded(
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                              '${DateFormat('MM/dd/yyyy').format(events[index].date)}',
+                              style: TextStyle(color: Colors.white)),
+                          Text(
+                            events[index].title.length < 25
+                                ? '${events[index].title}'
+                                : events[index].title.substring(0, 25) + '...',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize:
+                                    events[index].title.length < 20 ? 25 : 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
+                ],
+              ),
+            ),
+
+            //DESC AND RADIO CONTAINER
+            Row(
+              children: [
+                //DESC CONTAINER
+                Padding(
+                  padding: EdgeInsets.all(4.0),
+                  child: Container(
+                    width: 175,
+                    child: Center(
+                        child: Text(
+                      events[index].description,
+                      style: TextStyle(color: Theme.of(context).accentColor),
+                    )),
+                  ),
                 ),
+
+                Container(
+                  height: 200,
+                  width: 1,
+                  color: Theme.of(context).accentColor,
+                ),
+
+                //RADIO BUTTONS CONTAINER
+                Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                        'CHANGE EVENT STATUS',
+                        style: TextStyle(
+                            color: Theme.of(context).accentColor,
+                            fontSize: 11),
+                        textAlign: TextAlign.center,
+                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // RADIO FOR SKIPPED
+                            Row(
+                              children: [
+                                Radio(
+                                  value: EventStatus.skipped,
+                                  groupValue: radioGroupValue,
+                                  onChanged: onChanged,
+                                ),
+                                Text(
+                                  'Skipped',
+                                  style: TextStyle(
+                                      color: statusColor(EventStatus.skipped)),
+                                )
+                              ],
+                            ),
+
+                            // RADIO FOR ON HOLD
+                            Row(
+                              children: [
+                                Radio(
+                                    value: EventStatus.onHold,
+                                    groupValue: radioGroupValue,
+                                    onChanged: onChanged),
+                                Text(
+                                  'On Hold',
+                                  style: TextStyle(
+                                      color: statusColor(EventStatus.onHold)),
+                                )
+                              ],
+                            ),
+
+                            //RADIO FOR IN PROGRESS
+                            Row(
+                              children: [
+                                Radio(
+                                    value: EventStatus.inProgress,
+                                    groupValue: radioGroupValue,
+                                    onChanged: onChanged),
+                                Text(
+                                  'In Progress',
+                                  style: TextStyle(
+                                      color: statusColor(EventStatus.inProgress)),
+                                )
+                              ],
+                            ),
+
+                            //RADIO FOR COMPLETE
+                            Row(
+                              children: [
+                                Radio(
+                                    value: EventStatus.complete,
+                                    groupValue: radioGroupValue,
+                                    onChanged: onChanged),
+                                Text(
+                                  'Complete',
+                                  style: TextStyle(
+                                      color: statusColor(EventStatus.complete)),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ]),
+                )
               ],
             ),
-          ),
-
-          //DESC AND RADIO CONTAINER
-          Row(
-            children: [
-
-              //DESC CONTAINER
-              Padding(
-                padding:EdgeInsets.all(4.0),
-                child: Container(
-                  width: 175,
-                  child: Center(
-                      child: Text(
-                          events[index].description,
-                        style: TextStyle(
-                          color: Theme.of(context).focusColor
-                        ),
-                      )
-                  ),
-                ),
-              ),
-
-              Container(
-                height: 200,
-                width: 1,
-                color: Theme.of(context).accentColor,
-              ),
-
-              //RADIO BUTTONS CONTAINER
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    child: Text(
-                      'CHANGE EVENT STATUS',
-                      style: TextStyle(
-                          color: Theme.of(context).accentColor,
-                        fontSize: 11
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // RADIO FOR SKIPPED
-                    Row(
-                      children: [
-                        Radio(
-                          value: EventStatus.skipped,
-                          groupValue: radioGroupValue,
-                          onChanged: onChanged,
-                        ),
-                        Text(
-                          'Skipped',
-                          style: TextStyle(
-                              color: statusColor(EventStatus.skipped)),
-                        )
-                      ],
-                    ),
-
-                    // RADIO FOR ON HOLD
-                    Row(
-                      children: [
-                        Radio(
-                            value: EventStatus.onHold,
-                            groupValue: radioGroupValue,
-                            onChanged: onChanged),
-                        Text(
-                          'On Hold',
-                          style:
-                              TextStyle(color: statusColor(EventStatus.onHold)),
-                        )
-                      ],
-                    ),
-
-                    //RADIO FOR IN PROGRESS
-                    Row(
-                      children: [
-                        Radio(
-                            value: EventStatus.inProgress,
-                            groupValue: radioGroupValue,
-                            onChanged: onChanged),
-                        Text(
-                          'In Progress',
-                          style: TextStyle(
-                              color: statusColor(EventStatus.inProgress)),
-                        )
-                      ],
-                    ),
-
-                    //RADIO FOR COMPLETE
-                    Row(
-                      children: [
-                        Radio(
-                            value: EventStatus.complete,
-                            groupValue: radioGroupValue,
-                            onChanged: onChanged),
-                        Text(
-                          'Complete',
-                          style: TextStyle(
-                              color: statusColor(EventStatus.complete)),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ]
-              )
-            ],
-          ),
-        ],
+          ],
         ),
       ),
     );
@@ -308,7 +295,6 @@ class _WorkStatusClosedState extends State<WorkStatusClosed> {
     setState(() {});
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -324,65 +310,59 @@ class _WorkStatusClosedState extends State<WorkStatusClosed> {
                   color: Colors.black54,
                   blurRadius: 5,
                   spreadRadius: 3,
-                  offset: Offset.fromDirection(20)
-              )
-            ]
-        ),
-        child: Column(children: [
-          //TITLE CONTAINER
-          Container(
-            decoration: BoxDecoration(
-                color: statusColor(events[index].status),
-                borderRadius: BorderRadius.circular(10)
-            ),
-            width: MediaQuery.of(context).size.width,
-            height: 80,
-            child: Row(
-              children: [
-                SizedBox(width: 2),
-                Container(
-                    decoration: BoxDecoration(
-                        color: statusColor(events[index].status),
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                            width: 2,
-                            color: Colors.white
-                        )
-                    ),
-                    width: 75,
-                    height: 75,
+                  offset: Offset.fromDirection(20))
+            ]),
+        child: Column(
+          children: [
+            //TITLE CONTAINER
+            Container(
+              decoration: BoxDecoration(
+                  color: statusColor(events[index].status),
+                  borderRadius: BorderRadius.circular(10)),
+              width: MediaQuery.of(context).size.width,
+              height: 80,
+              child: Row(
+                children: [
+                  SizedBox(width: 2),
+                  Container(
+                      decoration: BoxDecoration(
+                          color: statusColor(events[index].status),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(width: 2, color: Colors.white)),
+                      width: 75,
+                      height: 75,
+                      child: Center(
+                          child: Image.asset(
+                              'assets/event_icons/${events[index].icon}.png'))),
+                  Expanded(
                     child: Center(
-                        child: Image.asset('assets/event_icons/${events[index].icon}.png')
-                    )
-                ),
-                Expanded(
-                  child: Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('${DateFormat('MM/dd/yyyy').format(events[index].date)}',
-                            style: TextStyle(color: Colors.white)),
-                        Text(
-                          events[index].title.length < 25
-                              ? '${events[index].title}'
-                              : events[index].title.substring(0, 25) + '...',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: events[index].title.length < 20 ? 25 : 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                              '${DateFormat('MM/dd/yyyy').format(events[index].date)}',
+                              style: TextStyle(color: Colors.white)),
+                          Text(
+                            events[index].title.length < 25
+                                ? '${events[index].title}'
+                                : events[index].title.substring(0, 25) + '...',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize:
+                                    events[index].title.length < 20 ? 25 : 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
         ),
       ),
     );
   }
 }
-
