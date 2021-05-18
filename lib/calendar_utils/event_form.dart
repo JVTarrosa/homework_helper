@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class EventForm extends StatelessWidget {
+  final BuildContext context;
   final String? title;
   final String? description;
   final ValueChanged<String> onChangedTitle;
@@ -9,6 +10,7 @@ class EventForm extends StatelessWidget {
 
   const EventForm({
     Key? key,
+    required this.context,
     this.title = '',
     this.description = '',
     required this.onChangedTitle,
@@ -72,4 +74,6 @@ class EventForm extends StatelessWidget {
         : null,
     onChanged: onChangedDescription,
   );
+
+
 }

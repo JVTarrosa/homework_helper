@@ -53,12 +53,12 @@ class _CalendarState extends State<Calendar> {
   }
 
   List<Event> getEventsThisDay(DateTime date) {
-
-    print('\nEVENTS MAP $events');
-    print('EVENTS MAP KEYS ${events.keys.toList()}');
-    print('DATE VALUE: $date');
-    print('events[$date] is null?: ${events[date] == null}');
-    print('');
+    //
+    // print('\nEVENTS MAP $events');
+    // print('EVENTS MAP KEYS ${events.keys.toList()}');
+    // print('DATE VALUE: $date');
+    // print('events[$date] is null?: ${events[date] == null}');
+    // print('');
     return events[DateFormat('yyyy.MM.dd').parse(DateFormat('yyyy.MM.dd').format(date))] ?? [];
   }
 
@@ -149,9 +149,6 @@ class _CalendarState extends State<Calendar> {
       ),
     );
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {

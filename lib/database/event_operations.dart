@@ -16,7 +16,9 @@ class EventOperations {
       'TITLE: ${event.copy(id: id).title}\n'
       'DESCRIPTION: ${event.copy(id: id).description}\n'
       'DATE: ${event.copy(id: id).date} \n'
-      'EVENT STATUS: ${event.copy(id: id).status}'
+      'EVENT STATUS: ${event.copy(id: id).status} \n'
+
+      'EVENT ICON: ${event.copy(id: id).icon}'
     );
     // DEBUGGING PRINT STATEMENT
 
@@ -48,7 +50,9 @@ class EventOperations {
             'TITLE: ${event.title}\n'
             'DESCRIPTION: ${event.description}\n'
             'DATE: ${event.date} \n'
-            'EVENT STATUS: ${event.status}'
+            'EVENT STATUS: ${event.status}\n'
+
+            'EVENT ICON: ${event.icon}'
     ));
     // DEBUGGING PRINT STATEMENT
 
@@ -71,7 +75,8 @@ class EventOperations {
             'TITLE: ${event.title}\n'
             'DESCRIPTION: ${event.description}\n'
             'DATE: ${event.date} \n'
-            'EVENT STATUS: ${event.status}'
+            'EVENT STATUS: ${event.status}\n'
+            'EVENT ICON: ${event.icon}'
     ));
     // DEBUGGING PRINT STATEMENT
 

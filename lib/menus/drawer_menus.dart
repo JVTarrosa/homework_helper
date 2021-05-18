@@ -109,7 +109,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
                   onPressed: () {
                     navigateToPage(context, 'template_page');
                   },
-                  child: drawerButton(Icons.info_rounded, 'About', 'Homework Helper', Theme.of(context).accentColor)
+                  child: drawerButton(Icons.info_rounded, 'About', 'The App', Theme.of(context).accentColor)
               ),
             ]),
       ),

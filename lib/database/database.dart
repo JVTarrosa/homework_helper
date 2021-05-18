@@ -36,6 +36,7 @@ class DatabaseRepository {
   Future onCreate(Database db, int version) async {
     final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     final textType = 'TEXT NOT NULL';
+    final intType = 'INTEGER NOT NULL';
 
 
     await db.execute('''
@@ -44,7 +45,8 @@ class DatabaseRepository {
             ${EventTableFields.title} $textType,
             ${EventTableFields.description} $textType,
             ${EventTableFields.date} $textType,
-            ${EventTableFields.status} $textType
+            ${EventTableFields.status} $textType,
+            ${EventTableFields.icon} $intType
           )
           ''');
   }

@@ -34,7 +34,6 @@ class EventsList extends StatelessWidget {
                   context: context,
                   events: events ??= [],
                   index: index,
-                  iconColor: Colors.white,
                   iconBG: Theme
                       .of(context)
                       .accentColor,
@@ -65,7 +64,6 @@ Widget listItem({
   required BuildContext context,
   required List<Event> events,
   required int index,
-  required Color iconColor,
   required Color iconBG,
   required Color listBarColor,
 }) {
@@ -90,8 +88,7 @@ Widget listItem({
             ),
             width: 80,
             height: 80,
-            child: Image.asset('assets/event_icons/1.png'),
-            // child: Icon(Icons.menu_book_outlined, size: 70, color: iconColor),
+            child: Image.asset('assets/event_icons/${events[index].icon}.png'),
           ),
           Expanded(
             child: Center(

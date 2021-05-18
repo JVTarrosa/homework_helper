@@ -3,22 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:project_testing/calendar_utils/event_item.dart';
 import 'package:project_testing/database/event_operations.dart';
 
-Color statusColor(EventStatus? eventStatus) {
-  // ignore: missing_enum_constant_in_switch
-  switch (eventStatus) {
-    case EventStatus.skipped:
-      return Colors.black26;
-    case EventStatus.onHold:
-      return Colors.orangeAccent;
-    case EventStatus.inProgress:
-      return Color.fromARGB(255, 255, 112, 67);
-    case EventStatus.complete:
-      return Color.fromARGB(255, 67, 160, 71);
-    case null:
-      return Colors.white;
-  }
-}
-
 class WorkStatusItem extends StatefulWidget {
   List<Event> events;
   int index;
@@ -91,13 +75,18 @@ class _WorkStatusItemState extends State<WorkStatusItem> {
                 SizedBox(width: 2),
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)
+                    color: statusColor(events[index].status),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      width: 2,
+                      color: Colors.white
+                    )
                   ),
                   width: 75,
                   height: 75,
-                  child: Icon(Icons.menu_book_outlined,
-                      size: 70, color: statusColor(events[index].status)),
+                  child: Center(
+                      child: Image.asset('assets/event_icons/${events[index].icon}.png')
+                  )
                 ),
                 Expanded(
                   child: Center(

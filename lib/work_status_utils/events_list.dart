@@ -62,7 +62,7 @@ Widget listItem({
             ),
             width: 80,
             height: 80,
-            child: Icon(Icons.menu_book_outlined, size: 70, color: iconColor),
+            child: Image.asset('assets/event_icons/${events[index].icon}.png'),
           ),
           Expanded(
             child: Center(

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 enum EventStatus {
@@ -5,6 +6,22 @@ enum EventStatus {
   onHold,
   inProgress,
   complete
+}
+
+Color statusColor(EventStatus? eventStatus) {
+  // ignore: missing_enum_constant_in_switch
+  switch (eventStatus) {
+    case EventStatus.skipped:
+      return Colors.black26;
+    case EventStatus.onHold:
+      return Colors.orangeAccent;
+    case EventStatus.inProgress:
+      return Color.fromARGB(255, 255, 112, 67);
+    case EventStatus.complete:
+      return Color.fromARGB(255, 67, 160, 71);
+    case null:
+      return Colors.white;
+  }
 }
 
 String statusToString(EventStatus? eventStatus) {
@@ -41,6 +58,7 @@ class EventTableFields {
   static final String description = 'eventDesc';
   static final String date = 'eventDate';
   static final String status = 'eventStatus';
+  static final String icon = 'eventIcon';
 }
 
 class Event {
@@ -50,12 +68,15 @@ class Event {
   DateTime date;
   EventStatus? status;
 
+  int icon;
+
   Event({
     this.id,
     required this.title,
     required this.description,
     required this.date,
-    required this.status
+    required this.status,
+    required this.icon
   });
 
   Event copy({
@@ -63,14 +84,16 @@ class Event {
     String? title,
     String? description,
     DateTime? date,
-    EventStatus? status
+    EventStatus? status,
+    int? icon,
   }) {
     return Event(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
       date: date ?? this.date,
-      status: status ?? this.status
+      status: status ?? this.status,
+      icon: icon ?? this.icon
     );
 }
 
@@ -82,7 +105,8 @@ class Event {
       title: obj[EventTableFields.title] as String,
       description: obj[EventTableFields.description] as String,
       date: DateFormat('yyyy.MM.dd').parse(obj[EventTableFields.date]),
-      status: stringToStatus(obj[EventTableFields.status])
+      status: stringToStatus(obj[EventTableFields.status]),
+      icon: obj[EventTableFields.icon] as int
     );
 
   }
@@ -93,7 +117,8 @@ class Event {
       EventTableFields.title: title,
       EventTableFields.description: description,
       EventTableFields.date: DateFormat('yyyy.MM.dd').format(date),
-      EventTableFields.status: statusToString(status)
+      EventTableFields.status: statusToString(status),
+      EventTableFields.icon: icon
     };
   }
 
