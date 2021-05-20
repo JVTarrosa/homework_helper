@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_testing/database/event_operations.dart';
-import 'event_item.dart';
+import 'event_object.dart';
 import 'event_form.dart';
 import 'package:project_testing/menus/drawer_menus.dart';
 
@@ -111,8 +111,35 @@ class _AddEventState extends State<AddEvent> {
               : Colors.grey.shade700,
         ),
         onPressed: () {
-          addEvent();
-          Navigator.of(context).pushReplacementNamed('home');
+          if (isFormValid) {
+            addEvent();
+            Navigator.of(context).pushReplacementNamed('home');
+          } else {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text('Text Fields Cannot Be Left Empty'),
+                actions: [
+                  Center(
+                    child: TextButton(
+                      child: Container(
+                        height: 30,
+                        width: 80,
+                        child: Text(
+                          'OK',
+                          style: TextStyle(
+                              color:
+                              Theme.of(context).accentColor),
+                        ),
+                      ),
+                      onPressed: () =>
+                          Navigator.of(context).pop(),
+                    ),
+                  )
+                ],
+              ),
+            );
+          }
         },
         child: Text('Save'),
       ),
@@ -171,11 +198,14 @@ class _AddEventState extends State<AddEvent> {
             onPrimary: Colors.white, primary: Theme.of(context).accentColor),
         onPressed: () {
           showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                    title: Text('Icon Select'),
-                    actions: [iconSelection()],
-                  ));
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('Icon Select'),
+              actions: [
+                ListView(children: [iconSelection()])
+              ],
+            ),
+          );
         },
         child: Text('Change Icon'),
       ),

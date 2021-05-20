@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class EventForm extends StatelessWidget {
   final BuildContext context;
@@ -37,6 +38,9 @@ class EventForm extends StatelessWidget {
   Widget buildTitle() => TextFormField(
 
     maxLines: 1,
+    inputFormatters: [
+      LengthLimitingTextInputFormatter(25)
+    ],
     initialValue: title,
     style: TextStyle(
       color: generalTextColor,
@@ -47,7 +51,7 @@ class EventForm extends StatelessWidget {
       labelText: 'Event Title',
       labelStyle: TextStyle(
         color: generalTextColor,
-        fontSize: 20,
+        fontSize: 30,
         fontWeight: FontWeight.bold
       ),
     ),
@@ -57,7 +61,10 @@ class EventForm extends StatelessWidget {
   );
 
   Widget buildDescription() => TextFormField(
-    maxLines: 5,
+    maxLines: 2,
+    inputFormatters: [
+      LengthLimitingTextInputFormatter(100)
+    ],
     initialValue: description,
     style: TextStyle(color: generalTextColor, fontSize: 18),
     decoration: InputDecoration(

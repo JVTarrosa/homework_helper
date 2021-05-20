@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project_testing/study_lock_utils/time_input.dart';
+import 'package:project_testing/study_lock_utils/time_input_object.dart';
 import 'study_timer.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'time_selectors.dart';
 
 class NumPicker extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class NumPicker extends StatefulWidget {
 
 class _NumPickerState extends State<NumPicker> {
   TimeInput input = TimeInput(studyTime: 0, pauseTime: 0, cycle: 0);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,143 +25,16 @@ class _NumPickerState extends State<NumPicker> {
           padding: const EdgeInsets.only(top: 30.0),
           child: Column(
             children: [
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Colors.lightBlue,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10.0),
-                                  topRight: Radius.circular(10.0))),
-                          height: 30.0,
-                          width: 100.0,
-                          child: Center(
-                            child: Text(
-                              "Study Time",
-                              style: TextStyle(
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Colors.black12,
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(10.0),
-                                bottomRight: Radius.circular(10.0),
-                              )),
-                          height: 150.0,
-                          child: NumberPicker(
-                            value: input.studyTime,
-                            minValue: 0,
-                            maxValue: 1440,
-                            onChanged: (val) {
-                              setState(() {
-                                input.studyTime = val;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 5.0,
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                            decoration: BoxDecoration(
-                                color: Colors.lightBlue,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10.0),
-                                    topRight: Radius.circular(10.0))),
-                            height: 30.0,
-                            width: 100.0,
-                            child: Center(
-                              child: Text(
-                                "Pause Time",
-                                style: TextStyle(
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white),
-                              ),
-                            )),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.black12,
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(10.0),
-                              bottomRight: Radius.circular(10.0),
-                            ),
-                          ),
-                          height: 150.0,
-                          child: NumberPicker(
-                            value: input.pauseTime,
-                            minValue: 0,
-                            maxValue: 120,
-                            onChanged: (val) {
-                              setState(() {
-                                input.pauseTime = val;
-                              });
-                            },
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      width: 5.0,
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Colors.lightBlue,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10.0),
-                                  topRight: Radius.circular(10.0))),
-                          height: 30.0,
-                          width: 100.0,
-                          child: Center(
-                            child: Text(
-                              "Cycle",
-                              style: TextStyle(
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Colors.black12,
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(10.0),
-                                bottomRight: Radius.circular(10.0),
-                              )),
-                          height: 150.0,
-                          child: NumberPicker(
-                            value: input.cycle,
-                            minValue: 0,
-                            maxValue: 24,
-                            onChanged: (val) {
-                              setState(() {
-                                input.cycle = val;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ]),
+
+              // TIME SELECTORS
+              TimeSelectors(input: input),
+
               SizedBox(
                 height: 300.0,
               ),
+
+              // START BUTTON
+
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: Colors.green, // background

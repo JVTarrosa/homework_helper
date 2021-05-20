@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
-import 'package:project_testing/calendar_utils/add_event_page_alt.dart';
+import 'package:project_testing/calendar_utils/add_event_page.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'event_item.dart';
+import 'event_object.dart';
 import 'package:project_testing/database/event_operations.dart';
 import 'package:project_testing/calendar_utils/events_list.dart';
 
@@ -97,7 +97,6 @@ class _CalendarState extends State<Calendar> {
             color: Theme.of(context).accentColor,
             borderRadius: BorderRadius.circular(10),
           ),
-
         ),
 
         daysOfWeekStyle: DaysOfWeekStyle(
@@ -140,8 +139,7 @@ class _CalendarState extends State<Calendar> {
                 calendar(),
 
                 titledBorder(
-                    'Events This Day (${DateFormat('MM/dd').format(selectedDay)})'
-                ),
+                    'Events This Day (${DateFormat('MM/dd').format(selectedDay)})'),
 
                 // EVENTS LIST FOR THIS DAY
                 FutureBuilder(
@@ -157,9 +155,7 @@ class _CalendarState extends State<Calendar> {
                   },
                 ),
 
-                titledBorder(
-                  'Upcoming Events'
-                ),
+                titledBorder('Upcoming Events'),
 
                 // CLOSE EVENTS LIST
                 FutureBuilder(
@@ -174,14 +170,17 @@ class _CalendarState extends State<Calendar> {
                         : Text('no data');
                   },
                 ),
-
               ],
             )),
       ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => AddEvent(dateSelected: selectedDay)));
+          Navigator.of(context).pop();
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => AddEvent(dateSelected: selectedDay),
+            ),
+          );
           _fetchEvents();
         },
         child: Icon(Icons.add),
@@ -204,9 +203,7 @@ class _CalendarState extends State<Calendar> {
             Expanded(
               child: Container(
                 height: 1,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).accentColor
-                ),
+                decoration: BoxDecoration(color: Theme.of(context).accentColor),
               ),
             )
           ],

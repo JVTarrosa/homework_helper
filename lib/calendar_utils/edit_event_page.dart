@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_testing/database/event_operations.dart';
-import 'event_item.dart';
+import 'event_object.dart';
 import 'event_form.dart';
 import 'package:project_testing/menus/drawer_menus.dart';
 
@@ -174,7 +174,7 @@ class _EditEventState extends State<EditEvent> {
               context: context,
               builder: (context) => AlertDialog(
                     title: Text('Icon Select'),
-                    actions: [iconSelection()],
+                    actions: [ListView(children: [iconSelection()])],
                   ));
         },
         child: Text('Change Icon'),
@@ -188,17 +188,19 @@ class _EditEventState extends State<EditEvent> {
       children: [
         Expanded(
           child: Center(
-            child: Column(children: [
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                    color: Theme.of(context).accentColor,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Image.asset('assets/event_icons/$icon.png'),
-              ),
-              editIconButton()
-            ]),
+            child: Column(
+              children: [
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).accentColor,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Image.asset('assets/event_icons/$icon.png'),
+                ),
+                editIconButton()
+              ],
+            ),
           ),
         ),
       ],

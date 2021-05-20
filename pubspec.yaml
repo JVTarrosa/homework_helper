@@ -60,6 +60,7 @@ flutter:
     - assets/stg_logo.png
     - alert.mp3
     - assets/event_icons/
+    - assets/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

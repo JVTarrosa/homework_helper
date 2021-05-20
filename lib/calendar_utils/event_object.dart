@@ -79,7 +79,7 @@ class Event {
     required this.status,
     required this.icon
   }) {
-   isClose = DateTime.now().isAfter(date.subtract(Duration(days: 5)));
+   isClose = DateTime.now().isAfter(date.subtract(Duration(days: 5))) && date.isBefore(DateTime.now());
   }
 
   Event copy({

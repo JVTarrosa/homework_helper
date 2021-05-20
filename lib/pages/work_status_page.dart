@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_testing/menus/drawer_menus.dart';
 import 'package:project_testing/database/event_operations.dart';
 import 'package:project_testing/work_status_utils/events_list.dart';
+import 'package:project_testing/calendar_utils/add_event_page.dart';
 
 class WorkStatus extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _WorkStatusState extends State<WorkStatus> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-
+          backgroundColor: Theme.of(context).primaryColor,
           drawer: NavigatorMenu(),
           endDrawer: SettingsMenu(),
           appBar: AppBar(
@@ -66,7 +67,18 @@ class _WorkStatusState extends State<WorkStatus> {
                 return snapshot.hasData ? EventsList(data) : SizedBox();
               },
             ),
-          )
+          ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+        //     Navigator.of(context).pushReplacement(
+        //       MaterialPageRoute(
+        //         builder: (context) => AddEvent(dateSelected: DateTime.now()),
+        //       ),
+        //     );
+        //     setState(() {});
+        //   },
+        //   child: Icon(Icons.add),
+        // ),
       ),
     );
   }

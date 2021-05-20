@@ -53,12 +53,11 @@ class _TemplatePageState extends State<TemplatePage> {
               ),
             ),
           ),
-          body: Container(
-            child: Center(
-              child: Text(
-                  '$bodyText'
-              ),
-            ),
+          body: Image.network(
+              'https://drive.google.com/uc?export=view&id=1QHocFamzJtBeCOQdcVzXc5mq2M1GBncs',
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            fit: BoxFit.cover,
           )
       ),
     );

@@ -2,7 +2,9 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:project_testing/calendar_utils/event_item.dart';
+import 'package:project_testing/calendar_utils/event_object.dart';
+import '../study_lock_utils/time_input_object.dart';
+
 
 class DatabaseRepository {
   static final DatabaseRepository instance =
@@ -35,8 +37,6 @@ class DatabaseRepository {
     final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     final textType = 'TEXT NOT NULL';
     final intType = 'INTEGER NOT NULL';
-    final boolType = 'BOOLEAN NOT NULL';
-
 
     await db.execute('''
           CREATE TABLE $eventTableName (
@@ -47,6 +47,16 @@ class DatabaseRepository {
             ${EventTableFields.status} $textType,
             ${EventTableFields.icon} $intType,
             ${EventTableFields.isClose} $intType
+          )
+          ''');
+
+    await db.execute('''
+          CREATE TABLE $timeTableName (
+            ${TimeTableFields.id} $idType,
+            ${TimeTableFields.name} $textType,
+            ${TimeTableFields.studyTime} $intType,
+            ${TimeTableFields.pauseTIme} $intType,
+            ${TimeTableFields.cycle} $intType
           )
           ''');
   }

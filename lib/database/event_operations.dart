@@ -1,5 +1,5 @@
 import 'package:project_testing/database/database.dart';
-import 'package:project_testing/calendar_utils/event_item.dart';
+import 'package:project_testing/calendar_utils/event_object.dart';
 import 'package:intl/intl.dart';
 
 class EventOperations {

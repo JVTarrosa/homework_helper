@@ -155,27 +155,21 @@ class _NavigatorMenuState extends State<NavigatorMenu> {
               buttonDivider(),
               TextButton(
                   onPressed: () {
-                    navigateToPage(context, 'work_status'
-                        // MaterialPageRoute(builder: (context) => WorkStatus())
-                    );
+                    navigateToPage(context, 'work_status');
                   },
                   child: drawerButton(Icons.hourglass_bottom, 'Work', 'Status', Theme.of(context).accentColor)
               ),
               buttonDivider(),
               TextButton(
                   onPressed: () {
-                    navigateToPage(context, 'study_lock'
-                        // MaterialPageRoute(builder: (context) => StudyLock())
-                    );
+                    navigateToPage(context, 'study_lock');
                   },
                   child: drawerButton(Icons.lock_clock, 'Study', 'Lock', Theme.of(context).accentColor)
               ),
               buttonDivider(),
               TextButton(
                   onPressed: () {
-                    navigateToPage(context, 'productivity_data'
-                        // MaterialPageRoute(builder: (context) => ProductivityData())
-                    );
+                    navigateToPage(context, 'productivity_data');
                   },
                   child: drawerButton(Icons.bar_chart_sharp, 'Productivity', 'Data', Theme.of(context).accentColor)
               ),

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:project_testing/database/event_operations.dart';
-import 'package:project_testing/calendar_utils/event_item.dart';
+import 'package:project_testing/calendar_utils/event_object.dart';
 import 'work_status_item.dart';
 
 class EventsList extends StatelessWidget {

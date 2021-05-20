@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:project_testing/calendar_utils/edit_event_page_alt.dart';
+import 'package:project_testing/calendar_utils/edit_event_page.dart';
 import 'package:project_testing/database/event_operations.dart';
-import 'package:project_testing/calendar_utils/event_item.dart';
+import 'package:project_testing/calendar_utils/event_object.dart';
 import 'package:project_testing/menus/snackbar.dart';
 import 'custom_dismissible.dart';
 import 'package:intl/intl.dart';
-import 'edit_event_page_alt.dart';
+import 'edit_event_page.dart';
 
 class EventsList extends StatelessWidget {
   List<Event>? events;
@@ -57,10 +57,30 @@ class EventsList extends StatelessWidget {
                   onDismissed: (direction) {
                     if (direction == DismissDirection.endToStart) {
                       eventOperations.deleteEvent(events![index]);
-                      EditableSnackBar.showSnackBar(
-                          context, 'Event has been deleted');
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Event has been deleted'),
+                          actions: [
+                            Center(
+                              child: TextButton(
+                                  child: Container(
+                                    height: 30,
+                                    width: 80,
+                                    child: Text(
+                                      'OK',
+                                      style: TextStyle(
+                                          color: Theme.of(context).accentColor),
+                                    ),
+                                  ),
+                                  onPressed: () => Navigator.of(context).pushReplacementNamed('home')
+                              ),
+                            )
+                          ],
+                        ),
+                      );
                     } else {
-                      Navigator.push(context,
+                      Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) {
                         return EditEvent(event: events![index]);
                       }));
@@ -129,10 +149,12 @@ Widget listItem({
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 5),
                         child: Text(
-                          ' ${events[index].description}',
+                          events[index].description.length < 50 ?
+                          '${events[index].description}'
+                          : events[index].description.substring(0, 50) + '...',
                           style: TextStyle(
                               color: Colors.white70,
-                              fontSize: 12,
+                              fontSize: events[index].description.length < 50 ? 15 : 10,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
