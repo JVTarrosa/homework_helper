@@ -44,9 +44,11 @@ class DatabaseRepository {
             ${EventTableFields.title} $textType,
             ${EventTableFields.description} $textType,
             ${EventTableFields.date} $textType,
+            ${EventTableFields.week} $intType,
             ${EventTableFields.status} $textType,
             ${EventTableFields.icon} $intType,
-            ${EventTableFields.isClose} $intType
+            ${EventTableFields.isClose} $intType,
+            ${EventTableFields.isPast} $intType
           )
           ''');
 

@@ -82,6 +82,29 @@ class EventOperations {
     return events;
   }
 
+  Future<List<Event>> getEventsByWeek(int weekNumber) async {
+    List<Event> allevents = await getEventsThisMonth();
+    List<Event> results = [];
+    allevents.forEach((event) {
+      if (event.week == weekNumber) {
+        results.add(event);
+      }
+    });
+    return results;
+  }
+
+  Future<List<Event>> getEventsThisMonth() async {
+    List<Event> allevents = await getAllEvents();
+    List<Event> results = [];
+    allevents.forEach((event) {
+      if (event.date.month == DateTime.now().month) {
+        results.add(event);
+      }
+    });
+    return results;
+  }
+
+
   Future<List<Event>> getCloseEvents() async {
     final db = await dbProvider.database;
     List<Map<String, dynamic>> eventList = await db.query(eventTableName,
@@ -92,6 +115,30 @@ class EventOperations {
 
     // DEBUGGING PRINT STATEMENT
     print('RUNNING METHOD getCloseEvents()');
+    events.forEach((event) => print(
+        'LISTED EVENT: \n'
+            'ID: ${event.id}\n'
+            'TITLE: ${event.title}\n'
+            'DESCRIPTION: ${event.description}\n'
+            'DATE: ${event.date} \n'
+            'EVENT STATUS: ${event.status}\n'
+            'EVENT ICON: ${event.icon}'
+    ));
+    // DEBUGGING PRINT STATEMENT
+
+    return events;
+  }
+
+  Future<List<Event>> getPastEvents() async {
+    final db = await dbProvider.database;
+    List<Map<String, dynamic>> eventList = await db.query(eventTableName,
+        where: '${EventTableFields.isPast}=?',
+        whereArgs: [1]);
+    List<Event> events =
+    eventList.map((event) => Event.fromMap(event)).toList();
+
+    // DEBUGGING PRINT STATEMENT
+    print('RUNNING METHOD getPastEvents()');
     events.forEach((event) => print(
         'LISTED EVENT: \n'
             'ID: ${event.id}\n'

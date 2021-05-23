@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project_testing/study_lock_utils/time_input_object.dart';
-import 'study_timer.dart';
-import 'time_selectors.dart';
 import 'package:project_testing/database/time_input_operations.dart';
 
 class AddTimeInput extends StatefulWidget {
@@ -48,7 +46,7 @@ class _AddTimeInputState extends State<AddTimeInput> {
                   height: 100.0,
                 ),
 
-                TextField(
+                TextFormField(
                   controller: _nameController,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(), labelText: 'TIMER NAME'),

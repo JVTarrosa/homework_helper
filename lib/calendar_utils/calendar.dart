@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:project_testing/accessories/titled_border.dart';
 import 'package:intl/intl.dart';
 import 'package:project_testing/calendar_utils/add_event_page.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -18,9 +19,6 @@ class _CalendarState extends State<Calendar> {
   Map<DateTime, List<Event>> events = {};
   EventOperations eventOperations = EventOperations();
 
-  // Map<DateTime, List<Event>> selectedEvents;
-  // CalendarFormat calendarFormat = CalendarFormat.month;
-
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
 
@@ -28,6 +26,15 @@ class _CalendarState extends State<Calendar> {
   void initState() {
     super.initState();
     _fetchEvents();
+    _refreshEvents();
+  }
+
+  void _refreshEvents() async {
+    var allEvents = await eventOperations.getAllEvents();
+    for (var event in allEvents) {
+      event.refreshDateStatus();
+      eventOperations.updateEvent(event);
+    }
   }
 
   void _fetchEvents() async {
@@ -138,7 +145,7 @@ class _CalendarState extends State<Calendar> {
                 // CALENDAR WIDGET CREATED ABOVE
                 calendar(),
 
-                titledBorder(
+                titledBorder(context,
                     'Events This Day (${DateFormat('MM/dd').format(selectedDay)})'),
 
                 // EVENTS LIST FOR THIS DAY
@@ -155,7 +162,7 @@ class _CalendarState extends State<Calendar> {
                   },
                 ),
 
-                titledBorder('Upcoming Events'),
+                titledBorder(context, 'Upcoming Events'),
 
                 // CLOSE EVENTS LIST
                 FutureBuilder(
@@ -168,6 +175,21 @@ class _CalendarState extends State<Calendar> {
                     return snapshot.hasData
                         ? EventsList(data)
                         : Text('no data');
+                  },
+                ),
+
+                titledBorder(context, 'Past Events'),
+
+                FutureBuilder(
+                  future: eventOperations.getPastEvents(),
+                  builder: (context, AsyncSnapshot<List<Event>> snapshot) {
+                    if (snapshot.hasError) {
+                      print('snapshot error');
+                    }
+                    var data = snapshot.data;
+                    return snapshot.hasData
+                        ? EventsList(data)
+                        : CircularProgressIndicator();
                   },
                 ),
               ],
@@ -185,30 +207,6 @@ class _CalendarState extends State<Calendar> {
         },
         child: Icon(Icons.add),
       ),
-    );
-  }
-
-  Widget titledBorder(String borderTitle) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '$borderTitle',
-          style: TextStyle(
-              color: Theme.of(context).accentColor,
-              fontWeight: FontWeight.bold),
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                height: 1,
-                decoration: BoxDecoration(color: Theme.of(context).accentColor),
-              ),
-            )
-          ],
-        )
-      ],
     );
   }
 }

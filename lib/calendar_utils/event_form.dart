@@ -26,16 +26,16 @@ class EventForm extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          buildTitle(),
+          titleBox(),
           SizedBox(height: 8),
-          buildDescription(),
+          descriptionBox(),
           SizedBox(height: 16),
         ],
       ),
     ),
   );
 
-  Widget buildTitle() => TextFormField(
+  Widget titleBox() => TextFormField(
 
     maxLines: 1,
     inputFormatters: [
@@ -60,7 +60,7 @@ class EventForm extends StatelessWidget {
     onChanged: onChangedTitle,
   );
 
-  Widget buildDescription() => TextFormField(
+  Widget descriptionBox() => TextFormField(
     maxLines: 2,
     inputFormatters: [
       LengthLimitingTextInputFormatter(100)

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project_testing/study_lock_utils/time_input_object.dart';
-import 'time_picker.dart';
 import 'study_timer.dart';
 
 class TimerButton extends StatelessWidget {
@@ -23,6 +22,8 @@ class TimerButton extends StatelessWidget {
             ),
             Text(
               buttonName ?? '',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: buttonName!.length < 20 ? 25 : 18,
@@ -30,6 +31,7 @@ class TimerButton extends StatelessWidget {
             ),
           ],
         ),
+        SizedBox(height: 5),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,

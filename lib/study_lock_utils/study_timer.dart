@@ -113,10 +113,18 @@ class _PomodoroState extends State<Pomodoro> {
             child: Stack(
               children: [
                 Image.network(
-                  'https://drive.google.com/uc?export=view&id=1QHocFamzJtBeCOQdcVzXc5mq2M1GBncs',
+                  'https://drive.google.com/uc?export=view&id=1gI-t4W4m3jBXnLdJ2_C30ZFwjVTdOLug',
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
                   fit: BoxFit.cover,
+                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Container(
+                      color: Colors.black,
+                    );
+                  },
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -128,7 +136,7 @@ class _PomodoroState extends State<Pomodoro> {
                       child: Text(
                         "Study Timer",
                         style: TextStyle(
-                            color: Colors.blue,
+                            color: Colors.white,
                             fontSize: 40.0,
                             fontWeight: FontWeight.w700),
                       ),
@@ -151,7 +159,7 @@ class _PomodoroState extends State<Pomodoro> {
                       center: TextButton(
                         onPressed: () => audio.play('alert.mp3'),
                         child: Text(
-                          '$inputTime:${secondsFormat(time)}',
+                          '${minutesFormat(inputTime)}:${secondsFormat(time)}',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 60.0,
@@ -385,12 +393,4 @@ class _PomodoroState extends State<Pomodoro> {
       ),
     );
   }
-}
-
-String secondsFormat(int seconds) {
-  var divided = seconds % 60;
-  if (divided < 10) {
-    return '0$divided';
-  }
-  return '$divided';
 }

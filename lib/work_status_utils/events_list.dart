@@ -5,10 +5,13 @@ import 'package:project_testing/database/event_operations.dart';
 import 'package:project_testing/calendar_utils/event_object.dart';
 import 'work_status_item.dart';
 
+
 class EventsList extends StatelessWidget {
   List<Event>? events;
 
-  EventsList(this.events, {Key? key}) : super(key: key);
+  EventsList(this.events, {Key? key}) : super(key: key) {
+    events!.sort();
+  }
   EventOperations eventOperations = EventOperations();
 
   @override

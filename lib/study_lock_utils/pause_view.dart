@@ -91,7 +91,7 @@ class _PomodoroPauseState extends State<PomodoroPause> {
           body: Stack(
             children: [
               Image.network(
-                'https://drive.google.com/uc?export=view&id=1QHocFamzJtBeCOQdcVzXc5mq2M1GBncs',
+                'https://drive.google.com/uc?export=view&id=1gI-t4W4m3jBXnLdJ2_C30ZFwjVTdOLug',
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.cover,
@@ -108,7 +108,7 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                       child: Text(
                         "Break",
                         style: TextStyle(
-                            color: Colors.blue,
+                            color: Colors.lightGreen,
                             fontSize: 40.0,
                             fontWeight: FontWeight.w700),
                       ),
@@ -119,7 +119,6 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                     ),
 
                     // COUNTDOWN CLOCK
-
                     CircularPercentIndicator(
                       percent: percent,
                       circularStrokeCap: CircularStrokeCap.round,
@@ -130,7 +129,7 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                       progressColor: Colors.greenAccent,
                       // backgroundColor: Colors.green,
                       center: Text(
-                        '$inputTime:${secondsFormat(time)}',
+                        '${minutesFormat(inputTime)}:${secondsFormat(time)}',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 60.0,
@@ -140,7 +139,6 @@ class _PomodoroPauseState extends State<PomodoroPause> {
 
 
                     // BOTTOM BAR FOR TIME VALUES
-
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -368,8 +366,9 @@ class _PomodoroPauseState extends State<PomodoroPause> {
 
 String secondsFormat(int seconds) {
   var divided = seconds % 60;
-  if (divided < 10) {
-    return '0$divided';
-  }
-  return '$divided';
+  return divided < 10 ? '0$divided' : '$divided';
+}
+
+String minutesFormat(int minutes) {
+    return minutes > 0 ? '${minutes - 1}' : '0';
 }

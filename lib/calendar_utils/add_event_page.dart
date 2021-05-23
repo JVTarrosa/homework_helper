@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_testing/database/event_operations.dart';
 import 'event_object.dart';
 import 'event_form.dart';
-import 'package:project_testing/menus/drawer_menus.dart';
+import 'package:project_testing/accessories/drawer_menus.dart';
 
 class AddEvent extends StatefulWidget {
   final Event? event;
@@ -202,7 +202,7 @@ class _AddEventState extends State<AddEvent> {
             builder: (context) => AlertDialog(
               title: Text('Icon Select'),
               actions: [
-                ListView(children: [iconSelection()])
+                iconSelection()
               ],
             ),
           );

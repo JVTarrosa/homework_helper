@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:project_testing/calendar_utils/theme.dart';
+import 'theme_settings.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
@@ -74,7 +74,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
                                   ),
                                   Center(
                                       child: Text(
-                                        'Theme',
+                                        'Light/Dark',
                                         style: TextStyle(
                                             color: Theme.of(context).accentColor,
                                             fontWeight: FontWeight.w900,
@@ -100,7 +100,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
               buttonDivider(),
               TextButton(
                   onPressed: () {
-                    navigateToPage(context, 'template_page');
+                    navigateToPage(context, 'theme_change');
                   },
                   child: drawerButton(Icons.palette_rounded, 'App Theme', 'Settings', Theme.of(context).accentColor)
               ),

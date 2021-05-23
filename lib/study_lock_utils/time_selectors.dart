@@ -83,7 +83,7 @@ class _TimeSelectorsState extends State<TimeSelectors> {
                 width: 100.0,
                 child: Center(
                   child: Text(
-                    "Pause Time",
+                    "Break Time",
                     style: TextStyle(
                         fontSize: 15.0,
                         fontWeight: FontWeight.w700,
@@ -117,7 +117,6 @@ class _TimeSelectorsState extends State<TimeSelectors> {
         ),
 
         // SET CYCLES
-
         Column(
           children: [
             Container(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_testing/menus/drawer_menus.dart';
+import 'package:project_testing/accessories/drawer_menus.dart';
 import 'package:project_testing/study_lock_utils/pomodoro_button.dart';
-import 'package:project_testing/study_lock_utils/add_timer.dart';
 import 'package:project_testing/database/time_input_operations.dart';
 import 'package:project_testing/study_lock_utils/listed_timers.dart';
 import 'package:project_testing/study_lock_utils/time_input_object.dart';
