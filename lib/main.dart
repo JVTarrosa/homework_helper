@@ -5,6 +5,8 @@ import 'package:project_testing/pages/study_lock_page.dart';
 import 'package:project_testing/pages/template%20page.dart';
 import 'package:project_testing/pages/work_status_page.dart';
 import 'package:project_testing/pages/theme_select_page.dart';
+import 'package:project_testing/pages/premium_status_page.dart';
+import 'package:project_testing/pages/about_page.dart';
 import 'package:provider/provider.dart';
 import 'pages/home_page.dart';
 
@@ -29,6 +31,8 @@ class MyApp extends StatelessWidget {
                   'work_status': (context) => WorkStatus(),
                   'template_page': (context) => TemplatePage(),
                   'theme_change': (context) => ThemeSelectPage(),
+                  'premium_status': (context) => PremiumStatusPage(),
+                  'about_page': (context) => AboutPage(),
                 },
                 home: HomePage(),
                 debugShowCheckedModeBanner: false,

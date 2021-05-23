@@ -93,7 +93,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
               buttonDivider(),
               TextButton(
                   onPressed: () {
-                      navigateToPage(context, 'template_page');
+                      navigateToPage(context, 'premium_status');
                   },
                   child: drawerButton(Icons.emoji_events_rounded, 'Premium', 'Subscription', Theme.of(context).accentColor)
               ),
@@ -107,7 +107,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
               buttonDivider(),
               TextButton(
                   onPressed: () {
-                    navigateToPage(context, 'template_page');
+                    navigateToPage(context, 'about_page');
                   },
                   child: drawerButton(Icons.info_rounded, 'About', 'The App', Theme.of(context).accentColor)
               ),

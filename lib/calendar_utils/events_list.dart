@@ -119,11 +119,13 @@ Widget listItem({
             height: 80,
             child: Image.asset('assets/event_icons/${events[index].icon}.png'),
           ),
-
           Container(
             decoration: BoxDecoration(
               color: statusMarkerColor,
-              border: Border.all(color: Colors.white30,width: 2),
+              border: Border.all(
+                color: Colors.black12,
+                width: 2,
+              ),
             ),
             width: 10,
           ),
@@ -133,8 +135,7 @@ Widget listItem({
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                      '${DateFormat('MM/dd/yyyy').format(events[index].date)}',
+                  Text('${DateFormat('MM/dd/yyyy').format(events[index].date)}',
                       style: TextStyle(color: Colors.white)),
                   Text(
                     events[index].title,
@@ -142,8 +143,7 @@ Widget listItem({
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize:
-                            events[index].title.length < 20 ? 25 : 18,
+                        fontSize: events[index].title.length < 20 ? 25 : 18,
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 5),
@@ -158,10 +158,9 @@ Widget listItem({
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               color: Colors.white70,
-                              fontSize:
-                                  events[index].description.length < 50
-                                      ? 15
-                                      : 10,
+                              fontSize: events[index].description.length < 50
+                                  ? 15
+                                  : 10,
                               fontWeight: FontWeight.bold),
                         ),
                       ),

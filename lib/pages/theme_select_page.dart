@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_testing/accessories/drawer_menus.dart';
 import 'package:project_testing/accessories/theme_settings.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,7 @@ class ThemeSelectPage extends StatefulWidget {
 }
 
 class _ThemeSelectPageState extends State<ThemeSelectPage> {
-  String appBarTitle = 'ThemeSelect Page';
+  String appBarTitle = 'Theme Select';
   String bodyText = 'Fill in this area please';
 
   @override
@@ -55,6 +56,34 @@ class _ThemeSelectPageState extends State<ThemeSelectPage> {
           color: Theme.of(context).primaryColor,
           child: ListView(
             children: [
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    Text(
+                      'Select a Theme',
+                      style: TextStyle(
+                          color: Theme.of(context).accentColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25),
+                    ),
+                    Container(
+                      height: 100,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                            color: Theme.of(context).focusColor, width: 5),
+                      ),
+                      child: Icon(
+                        FontAwesomeIcons.paintRoller,
+                        color: Theme.of(context).accentColor,
+                        size: 60,
+                      ),
+                    )
+                  ],
+                ),
+              ),
               Consumer<ThemeNotifier>(
                   builder: (context, notifier, child) => themeButton(
                         context,
@@ -75,49 +104,49 @@ class _ThemeSelectPageState extends State<ThemeSelectPage> {
                       )),
               Consumer<ThemeNotifier>(
                   builder: (context, notifier, child) => themeButton(
-                    context,
-                    Color.fromARGB(255, 95, 140, 70),
-                    'Green',
+                        context,
+                        Color.fromARGB(255, 95, 140, 70),
+                        'Green',
                         () {
-                      notifier.setThemeInt(3);
-                    },
-                  )),
+                          notifier.setThemeInt(3);
+                        },
+                      )),
               Consumer<ThemeNotifier>(
                   builder: (context, notifier, child) => themeButton(
-                    context,
-                    Color.fromARGB(255, 20, 100, 175),
-                    'Cobalt',
+                        context,
+                        Color.fromARGB(255, 20, 100, 175),
+                        'Cobalt',
                         () {
-                      notifier.setThemeInt(4);
-                    },
-                  )),
+                          notifier.setThemeInt(4);
+                        },
+                      )),
               Consumer<ThemeNotifier>(
                   builder: (context, notifier, child) => themeButton(
-                    context,
-                    Color.fromARGB(255, 235, 140, 65),
-                    'Orange',
+                        context,
+                        Color.fromARGB(255, 235, 140, 65),
+                        'Orange',
                         () {
-                      notifier.setThemeInt(5);
-                    },
-                  )),
+                          notifier.setThemeInt(5);
+                        },
+                      )),
               Consumer<ThemeNotifier>(
                   builder: (context, notifier, child) => themeButton(
-                    context,
-                    Color.fromARGB(255, 10, 140, 130),
-                    'Teal',
+                        context,
+                        Color.fromARGB(255, 10, 140, 130),
+                        'Teal',
                         () {
-                      notifier.setThemeInt(6);
-                    },
-                  )),
+                          notifier.setThemeInt(6);
+                        },
+                      )),
               Consumer<ThemeNotifier>(
                   builder: (context, notifier, child) => themeButton(
-                    context,
-                    Color.fromARGB(255, 190, 40, 40),
-                    'Red',
+                        context,
+                        Color.fromARGB(255, 190, 40, 40),
+                        'Red',
                         () {
-                      notifier.setThemeInt(7);
-                    },
-                  )),
+                          notifier.setThemeInt(7);
+                        },
+                      )),
             ],
           ),
         ),
@@ -158,13 +187,12 @@ class _ThemeSelectPageState extends State<ThemeSelectPage> {
               ),
               Text(
                 '$themeName',
-                style:
-                    TextStyle(color: Theme.of(context).accentColor, fontSize: 20),
+                style: TextStyle(
+                    color: Theme.of(context).accentColor, fontSize: 20),
               )
             ]),
           ),
-          onPressed: onPressed
-          ),
+          onPressed: onPressed),
     );
   }
 }
