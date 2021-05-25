@@ -65,6 +65,7 @@ flutter:
     - assets/stg_logo.png
     - alert.mp3
     - assets/event_icons/
+    - assets/study_lock/
     - assets/
 
 

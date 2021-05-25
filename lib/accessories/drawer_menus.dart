@@ -32,7 +32,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
                   ),
                 ),
               ),
-              buttonDivider(),
+              buttonDivider(context),
               Consumer<ThemeNotifier>(
                 builder: (context, notifier, child) => TextButton(
                     onPressed: () {
@@ -90,21 +90,21 @@ class _SettingsMenuState extends State<SettingsMenu> {
                     ),
                 )
               ),
-              buttonDivider(),
+              buttonDivider(context),
               TextButton(
                   onPressed: () {
                       navigateToPage(context, 'premium_status');
                   },
                   child: drawerButton(Icons.emoji_events_rounded, 'Premium', 'Subscription', Theme.of(context).accentColor)
               ),
-              buttonDivider(),
+              buttonDivider(context),
               TextButton(
                   onPressed: () {
                     navigateToPage(context, 'theme_change');
                   },
                   child: drawerButton(Icons.palette_rounded, 'App Theme', 'Settings', Theme.of(context).accentColor)
               ),
-              buttonDivider(),
+              buttonDivider(context),
               TextButton(
                   onPressed: () {
                     navigateToPage(context, 'about_page');
@@ -145,28 +145,28 @@ class _NavigatorMenuState extends State<NavigatorMenu> {
                   ),
                 ),
               ),
-              buttonDivider(),
+              buttonDivider(context),
               TextButton(
                 onPressed: () {
                   navigateToPage(context, 'home');
                 },
                   child: drawerButton(Icons.calendar_today_rounded, 'Schoolwork', 'Calendar', Theme.of(context).accentColor),
               ),
-              buttonDivider(),
+              buttonDivider(context),
               TextButton(
                   onPressed: () {
                     navigateToPage(context, 'work_status');
                   },
                   child: drawerButton(Icons.hourglass_bottom, 'Work', 'Status', Theme.of(context).accentColor)
               ),
-              buttonDivider(),
+              buttonDivider(context),
               TextButton(
                   onPressed: () {
                     navigateToPage(context, 'study_lock');
                   },
                   child: drawerButton(Icons.lock_clock, 'Study', 'Lock', Theme.of(context).accentColor)
               ),
-              buttonDivider(),
+              buttonDivider(context),
               TextButton(
                   onPressed: () {
                     navigateToPage(context, 'productivity_data');
@@ -185,10 +185,10 @@ void navigateToPage(BuildContext context, String targetPage) {
 }
 
 // widget made to create the small gray lines between the buttons
-Widget buttonDivider() {
+Widget buttonDivider(BuildContext context) {
   return Center(
     child: Container(
-      color:  Color.fromARGB(155, 176, 190, 197),
+      color:  Theme.of(context).focusColor,
       height: 1,
       width: 255,
     ),

@@ -6,6 +6,7 @@ import 'package:project_testing/study_lock_utils/saved_timer_list.dart';
 import 'package:project_testing/study_lock_utils/time_input_object.dart';
 import 'package:project_testing/study_lock_utils/create_timer_button.dart';
 import 'package:project_testing/study_lock_utils/time_selectors.dart';
+import 'package:project_testing/study_lock_utils/change_visual_button.dart';
 
 class StudyLock extends StatefulWidget {
   @override
@@ -73,7 +74,9 @@ class _StudyLockState extends State<StudyLock> {
                   CreateTimerButton(timeInput: input),
                 ],
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 10),
+              ChangeVisualButton(),
+              SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(

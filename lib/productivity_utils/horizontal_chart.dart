@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project_testing/productivity_utils/chart_series_object.dart';
-import 'package:intl/intl.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
 class HorizontalChart extends StatelessWidget {
