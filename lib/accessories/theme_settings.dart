@@ -139,33 +139,31 @@ ThemeData dark = ThemeData(
     ),
 );
 
-Future<SharedPreferences> initPrefs() async {
-  return await SharedPreferences.getInstance();
-}
-
 class ThemeNotifier extends ChangeNotifier {
-  final String key = "theme";
-  late SharedPreferences _prefs;
-  bool _isDarkTheme = false;
-  int _themeInt = 0;
+  final String boolKey = "themeBool";
+  final String intKey = 'themeInt';
+  SharedPreferences? _prefs;
+  late bool _isDarkTheme;
+  late int _themeInt;
 
   bool get isDarkTheme => _isDarkTheme;
   int get themeInt => _themeInt;
 
+
   ThemeNotifier() {
     _isDarkTheme = false;
-    _initPrefs();
-  }
-
-  // Initiate a preference
-  _initPrefs() async {
-    _prefs = await SharedPreferences.getInstance();
+    _themeInt = 0;
+    getThemePref();
+    print('Recieved the following pref data:\n'
+        'isDarkTheme: $_isDarkTheme\n'
+        'themeInt: $_themeInt');
   }
 
   // Get saved theme preference
-  _getThemPref() async {
-    await _initPrefs();
-    _isDarkTheme = _prefs.getBool(key) ?? false;
+  getThemePref() async {
+    await _initPreferences();
+    _isDarkTheme = _prefs!.getBool(boolKey) ?? false;
+    _themeInt = _prefs!.getInt(intKey) ?? 0;
     notifyListeners();
   }
 
@@ -176,19 +174,26 @@ class ThemeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Set theme preference
-  _setThemePrefs() async {
-    await _initPrefs();
-    _prefs.setBool(key, _isDarkTheme);
-  }
-
   //THEME CHANGE SHENANIGANS
-
-  Future<void> setThemeInt(int themeInt) async {
-    await _initPrefs();
+  setThemeInt(int themeInt) {
     _themeInt = themeInt;
     _setThemePrefs();
     notifyListeners();
+  }
+
+  // Set theme preference
+  _setThemePrefs() async {
+    await _initPreferences();
+    _prefs!.setBool(boolKey, _isDarkTheme);
+    _prefs!.setInt(intKey, _themeInt);
+    print ('_setThemePrefs()\n setBool as $_isDarkTheme\n setInt as $_themeInt');
+  }
+
+  // Initiate a preference
+  _initPreferences() async {
+    if (_prefs == null) {
+      _prefs = await SharedPreferences.getInstance();
+    }
   }
 
 

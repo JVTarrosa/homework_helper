@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_testing/accessories/drawer_menus.dart';
 import 'package:project_testing/accessories/theme_settings.dart';
 import 'package:provider/provider.dart';
-import 'package:project_testing/accessories/snackbar.dart';
 
 class ThemeSelectPage extends StatefulWidget {
   @override
@@ -11,9 +10,6 @@ class ThemeSelectPage extends StatefulWidget {
 }
 
 class _ThemeSelectPageState extends State<ThemeSelectPage> {
-  String appBarTitle = 'Theme Select';
-  String bodyText = 'Fill in this area please';
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -47,7 +43,7 @@ class _ThemeSelectPageState extends State<ThemeSelectPage> {
           ],
           title: Center(
             child: Text(
-              '$appBarTitle',
+              'Theme Settings',
               style: TextStyle(color: Colors.white),
             ),
           ),

@@ -8,6 +8,7 @@ import 'package:project_testing/pages/theme_select_page.dart';
 import 'package:project_testing/pages/premium_status_page.dart';
 import 'package:project_testing/pages/about_page.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'pages/home_page.dart';
 
 void main() {
@@ -15,7 +16,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -23,26 +23,31 @@ class MyApp extends StatelessWidget {
         child: Consumer<ThemeNotifier>(
             builder: (context, ThemeNotifier notifier, child) {
           return MaterialApp(
-                theme: notifier.isDarkTheme ? dark : themePicker(notifier.themeInt),
-                routes: <String, WidgetBuilder>{
-                  'home': (context) => HomePage(),
-                  'study_lock': (context) => StudyLock(),
-                  'productivity_data': (context) => ProductivityData(),
-                  'work_status': (context) => WorkStatus(),
-                  'template_page': (context) => TemplatePage(),
-                  'theme_change': (context) => ThemeSelectPage(),
-                  'premium_status': (context) => PremiumStatusPage(),
-                  'about_page': (context) => AboutPage(),
-                },
-                home: HomePage(),
-                debugShowCheckedModeBanner: false,
-              );
+            theme: notifier.isDarkTheme ? dark : themePicker(notifier.themeInt),
+            routes: <String, WidgetBuilder>{
+              'home': (context) => HomePage(),
+              'study_lock': (context) => StudyLock(),
+              'productivity_data': (context) => ProductivityData(),
+              'work_status': (context) => WorkStatus(),
+              'template_page': (context) => TemplatePage(),
+              'theme_change': (context) => ThemeSelectPage(),
+              'premium_status': (context) => PremiumStatusPage(),
+              'about_page': (context) => AboutPage(),
+            },
+            home: HomePage(),
+            debugShowCheckedModeBanner: false,
+          );
         }));
   }
 }
 
-// MaterialApp(
-// theme: notifier.isDarkTheme ? dark : themePicker(0),
+// ChangeNotifierProvider(
+// create: (_) => ThemeNotifier(),
+// child: Consumer<ThemeNotifier>(
+// builder: (context, ThemeNotifier notifier, child) {
+// initPrefs();
+// return MaterialApp(
+// theme: notifier.isDarkTheme ? dark : themePicker(notifier.themeInt),
 // routes: <String, WidgetBuilder>{
 // 'home': (context) => HomePage(),
 // 'study_lock': (context) => StudyLock(),
@@ -50,7 +55,15 @@ class MyApp extends StatelessWidget {
 // 'work_status': (context) => WorkStatus(),
 // 'template_page': (context) => TemplatePage(),
 // 'theme_change': (context) => ThemeSelectPage(),
+// 'premium_status': (context) => PremiumStatusPage(),
+// 'about_page': (context) => AboutPage(),
 // },
 // home: HomePage(),
 // debugShowCheckedModeBanner: false,
 // );
+// }));
+
+// FutureBuilder(
+// future: initPrefs(),
+// builder: (context, snapshot) { }
+// )

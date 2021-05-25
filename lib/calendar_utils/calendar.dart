@@ -158,7 +158,7 @@ class _CalendarState extends State<Calendar> {
                     var data = snapshot.data;
                     return snapshot.hasData
                         ? EventsList(data)
-                        : Text('no data');
+                        : CircularProgressIndicator();
                   },
                 ),
 
@@ -174,7 +174,7 @@ class _CalendarState extends State<Calendar> {
                     var data = snapshot.data;
                     return snapshot.hasData
                         ? EventsList(data)
-                        : Text('no data');
+                        : CircularProgressIndicator();
                   },
                 ),
 
