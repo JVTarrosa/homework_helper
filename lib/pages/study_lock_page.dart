@@ -75,7 +75,9 @@ class _StudyLockState extends State<StudyLock> {
                 ],
               ),
               SizedBox(height: 10),
+
               ChangeVisualButton(),
+
               SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(8.0),

@@ -5,7 +5,6 @@ import 'package:project_testing/accessories/drawer_menus.dart';
 import 'package:project_testing/productivity_utils/total_chart.dart';
 import 'package:project_testing/productivity_utils/page_chart.dart';
 import 'package:project_testing/productivity_utils/pdf_data_object.dart';
-import 'package:pdf/pdf.dart';
 import 'package:project_testing/productivity_utils/pdfFile.dart';
 
 class ProductivityData extends StatefulWidget {

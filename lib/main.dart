@@ -45,30 +45,3 @@ class MyApp extends StatelessWidget {
         }));
   }
 }
-
-// ChangeNotifierProvider(
-// create: (_) => ThemeNotifier(),
-// child: Consumer<ThemeNotifier>(
-// builder: (context, ThemeNotifier notifier, child) {
-// initPrefs();
-// return MaterialApp(
-// theme: notifier.isDarkTheme ? dark : themePicker(notifier.themeInt),
-// routes: <String, WidgetBuilder>{
-// 'home': (context) => HomePage(),
-// 'study_lock': (context) => StudyLock(),
-// 'productivity_data': (context) => ProductivityData(),
-// 'work_status': (context) => WorkStatus(),
-// 'template_page': (context) => TemplatePage(),
-// 'theme_change': (context) => ThemeSelectPage(),
-// 'premium_status': (context) => PremiumStatusPage(),
-// 'about_page': (context) => AboutPage(),
-// },
-// home: HomePage(),
-// debugShowCheckedModeBanner: false,
-// );
-// }));
-
-// FutureBuilder(
-// future: initPrefs(),
-// builder: (context, snapshot) { }
-// )
