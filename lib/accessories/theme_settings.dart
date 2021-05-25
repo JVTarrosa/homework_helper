@@ -159,7 +159,6 @@ class ThemeNotifier extends ChangeNotifier {
         'themeInt: $_themeInt');
   }
 
-  // Get saved theme preference
   getThemePref() async {
     await _initPreferences();
     _isDarkTheme = _prefs!.getBool(boolKey) ?? false;
@@ -167,21 +166,18 @@ class ThemeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Switch theme
   toggleTheme() {
     _isDarkTheme = !_isDarkTheme;
     _setThemePrefs();
     notifyListeners();
   }
 
-  //THEME CHANGE SHENANIGANS
   setThemeInt(int themeInt) {
     _themeInt = themeInt;
     _setThemePrefs();
     notifyListeners();
   }
 
-  // Set theme preference
   _setThemePrefs() async {
     await _initPreferences();
     _prefs!.setBool(boolKey, _isDarkTheme);
@@ -189,7 +185,6 @@ class ThemeNotifier extends ChangeNotifier {
     print ('_setThemePrefs()\n setBool as $_isDarkTheme\n setInt as $_themeInt');
   }
 
-  // Initiate a preference
   _initPreferences() async {
     if (_prefs == null) {
       _prefs = await SharedPreferences.getInstance();

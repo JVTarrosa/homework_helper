@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_testing/study_lock_utils/time_input_object.dart';
-import 'study_timer.dart';
+import 'pomodoro_timer.dart';
 
 class TimerButton extends StatelessWidget {
   String? buttonName;
@@ -155,29 +155,6 @@ class TimerButton extends StatelessWidget {
             ),
           ],
         ),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //
-        //   children: [
-        //     Column(
-        //       children: [
-        //         Text('${timeInput.studyTime}'),
-        //         Text('STUDY'),
-        //         Text('TIME')
-        //       ],
-        //     ),
-        //     Column(
-        //       children: [
-        //         Text('${timeInput.pauseTime}'),
-        //         Text('PAUSE'),
-        //         Text('TIME')
-        //       ],
-        //     ),
-        //     Column(
-        //       children: [Text('${timeInput.cycle}'), Text('CYCLES')],
-        //     )
-        //   ],
-        // )
       ]),
       onPressed: () {
         Navigator.push(context,

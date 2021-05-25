@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:project_testing/study_lock_utils/time_input_object.dart';
-import 'study_timer.dart';
+import 'pomodoro_timer.dart';
 
-class PomodoroButton extends StatelessWidget {
+class ImproviseTimerButton extends StatelessWidget {
   final TimeInput timeInput;
   
-  PomodoroButton({required this.timeInput});
+  ImproviseTimerButton({required this.timeInput});
   
   @override
   Widget build(BuildContext context) {

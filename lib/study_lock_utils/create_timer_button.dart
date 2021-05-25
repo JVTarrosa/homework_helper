@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_testing/study_lock_utils/time_input_object.dart';
-import 'add_timer.dart';
+import 'add_timer_page.dart';
 
 class CreateTimerButton extends StatelessWidget {
   final TimeInput timeInput;

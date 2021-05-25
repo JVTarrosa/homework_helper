@@ -1,34 +1,35 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/material.dart';
 import 'package:project_testing/study_lock_utils/time_input_object.dart';
-import 'study_timer.dart';
+
+import 'package:flutter/material.dart';
+import 'pomodoro_pause.dart';
 
 import 'package:percent_indicator/percent_indicator.dart';
 
 final Color topLabelColor = Colors.blueGrey;
-final Color boxColor = Colors.black12;
 final Color textColor = Colors.white70;
+final Color bottomBoxColor = Colors.black12;
 
-class PomodoroPause extends StatefulWidget {
+class Pomodoro extends StatefulWidget {
   final TimeInput input;
 
   @override
-  _PomodoroPauseState createState() => _PomodoroPauseState(input);
+  _PomodoroState createState() => _PomodoroState(input);
 
-  PomodoroPause(this.input);
+  Pomodoro(this.input);
 }
 
-class _PomodoroPauseState extends State<PomodoroPause> {
+class _PomodoroState extends State<Pomodoro> {
   final TimeInput input;
   final audio = AudioCache();
   double percent = 0;
   int time = 0;
   int inputTime = 0;
 
-  _PomodoroPauseState(this.input) {
-    inputTime = input.pauseTime;
+  _PomodoroState(this.input) {
+    inputTime = input.studyTime;
     _startTimer();
   }
 
@@ -46,18 +47,25 @@ class _PomodoroPauseState extends State<PomodoroPause> {
             inputTime--;
           }
           percent = (oldTime - time) / oldTime;
-        }
-
-        // PAUSE TIMER REACHES 0
-
-        else {
+        } else {
           audio.play('alert.mp3');
           percent = 0;
-          inputTime = input.pauseTime;
+          inputTime = input.studyTime;
           timer.cancel();
 
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => Pomodoro(input)));
+          // STUDY TIMER REACHES 0
+          if (input.cycle > 0) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PomodoroPause(
+                  input.copy(cycle: input.cycle - 1),
+                ),
+              ),
+            );
+          } else {
+            Navigator.pop(context);
+          }
         }
       });
     });
@@ -88,17 +96,30 @@ class _PomodoroPauseState extends State<PomodoroPause> {
       onWillPop: _onBackPressed,
       child: SafeArea(
         child: Scaffold(
-          body: Stack(
-            children: [
-              Image.network(
-                'https://drive.google.com/uc?export=view&id=1gI-t4W4m3jBXnLdJ2_C30ZFwjVTdOLug',
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.cover,
-              ),
-              Container(
-                width: double.infinity,
-                child: Column(
+          body: Container(
+            // decoration: BoxDecoration(
+            //   gradient: LinearGradient(
+            //       colors: [Colors.black, Colors.blueGrey],
+            //       begin: FractionalOffset(0.5, 1)),
+            // ),
+            width: double.infinity,
+            child: Stack(
+              children: [
+                Image.network(
+                  'https://drive.google.com/uc?export=view&id=1gI-t4W4m3jBXnLdJ2_C30ZFwjVTdOLug',
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Container(
+                      color: Colors.black,
+                    );
+                  },
+                ),
+                Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
@@ -106,9 +127,9 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                     Padding(
                       padding: EdgeInsets.only(top: 25.0),
                       child: Text(
-                        "Break",
+                        "Study Timer",
                         style: TextStyle(
-                            color: Colors.lightGreen,
+                            color: Colors.white,
                             fontSize: 40.0,
                             fontWeight: FontWeight.w700),
                       ),
@@ -119,6 +140,7 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                     ),
 
                     // COUNTDOWN CLOCK
+
                     CircularPercentIndicator(
                       percent: percent,
                       circularStrokeCap: CircularStrokeCap.round,
@@ -126,19 +148,21 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                       animateFromLastPercent: true,
                       radius: 200.0,
                       lineWidth: 20.0,
-                      progressColor: Colors.greenAccent,
-                      // backgroundColor: Colors.green,
-                      center: Text(
-                        '${minutesFormat(inputTime)}:${secondsFormat(time)}',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 60.0,
+                      progressColor: Colors.white,
+                      center: TextButton(
+                        onPressed: () => audio.play('alert.mp3'),
+                        child: Text(
+                          '${minutesFormat(inputTime)}:${secondsFormat(time)}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 60.0,
+                          ),
                         ),
                       ),
                     ),
 
-
                     // BOTTOM BAR FOR TIME VALUES
+
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -159,7 +183,7 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                                         Container(
                                           width: 80.0,
                                           decoration: BoxDecoration(
-                                            color: boxColor,
+                                            color: bottomBoxColor,
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(10.0),
                                             ),
@@ -205,7 +229,7 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                                         Container(
                                           width: 80.0,
                                           decoration: BoxDecoration(
-                                            color: boxColor,
+                                            color: bottomBoxColor,
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(10.0),
                                             ),
@@ -251,7 +275,7 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                                         Container(
                                           width: 80.0,
                                           decoration: BoxDecoration(
-                                            color: boxColor,
+                                            color: bottomBoxColor,
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(10.0),
                                             ),
@@ -293,13 +317,14 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                                         ),
                                       ],
                                     ),
+
+                                    // CANCEL BUTTON
+
                                     Padding(
                                       padding:
                                           EdgeInsets.symmetric(vertical: 28.0),
                                       child: ElevatedButton(
-                                          onPressed: () =>
-                                              // Navigator.pop(context, true),
-                                              showDialog(
+                                          onPressed: () => showDialog(
                                                 context: context,
                                                 builder: (context) =>
                                                     AlertDialog(
@@ -319,11 +344,10 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                                                       },
                                                     ),
                                                     TextButton(
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              context, false),
-                                                      child: Text("no"),
-                                                    )
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context, false),
+                                                        child: Text("no"))
                                                   ],
                                                 ),
                                               ),
@@ -344,7 +368,7 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                                                   fontSize: 20.0),
                                             ),
                                           )),
-                                    ),
+                                    )
                                   ],
                                 ),
                               ),
@@ -355,20 +379,11 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                     ),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-}
-
-String secondsFormat(int seconds) {
-  var divided = seconds % 60;
-  return divided < 10 ? '0$divided' : '$divided';
-}
-
-String minutesFormat(int minutes) {
-    return minutes > 0 ? '${minutes - 1}' : '0';
 }
