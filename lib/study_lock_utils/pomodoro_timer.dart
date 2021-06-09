@@ -108,6 +108,12 @@ class _PomodoroState extends State<Pomodoro> {
               builder: (context, LockVisualNotifier notifier, child) {
                 return Stack(
                   children: [
+                    Image.asset(
+                    stillScreen(notifier.lockInt),
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    fit: BoxFit.cover,
+                    ),
                     Image.network(
                       animatedScreen(notifier.lockInt),
                       height: MediaQuery.of(context).size.height,
@@ -117,12 +123,7 @@ class _PomodoroState extends State<Pomodoro> {
                         if (loadingProgress == null) {
                           return child;
                         }
-                        return Image.asset(
-                            stillScreen(notifier.lockInt),
-                          height: MediaQuery.of(context).size.height,
-                          width: MediaQuery.of(context).size.width,
-                          fit: BoxFit.cover,
-                        );
+                        return Container();
                       },
                     ),
                     Column(

@@ -66,7 +66,8 @@ class EventTableFields {
 
 int weekAssignment(DateTime date) {
   var now = DateTime.now();
-  var lastDay = DateTime(now.year, now.month + 1, 0).day;
+  var nextMonthAddend = now.month == 12 ? -11 : 1;
+
   if (date.isBefore(DateTime(now.year, now.month, 8))) {
     return 1;
   } else if (date.isAfter(DateTime(now.year, now.month, 7))
@@ -76,7 +77,7 @@ int weekAssignment(DateTime date) {
       && date.isBefore(DateTime(now.year, now.month, 22))) {
     return 3;
   } else if (date.isAfter(DateTime(now.year, now.month, 21))
-      && date.isBefore(DateTime(now.year, now.month, lastDay))) {
+      && date.isBefore(DateTime(now.year, now.month + nextMonthAddend, 1))) {
     return 4;
   }
   return 0;

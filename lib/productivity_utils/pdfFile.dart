@@ -1,14 +1,12 @@
 import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:project_testing/productivity_utils/pdf_data_object.dart';
 
 class PdfFile {
-  static Future<File> generate(PdfData data) async {
+  static Future<File> generate(List<List> data) async {
     final pdf = Document();
 
     pdf.addPage(MultiPage(
@@ -44,7 +42,7 @@ class PdfFile {
     await OpenFile.open(url);
   }
 
-  static Widget productivityTable(PdfData pdfData) {
+  static Widget productivityTable(List<List> pdfData) {
     return Table.fromTextArray(
       headerStyle: TextStyle(fontWeight: FontWeight.bold, color: PdfColors.white),
         headerDecoration: BoxDecoration(color: PdfColors.blueGrey),
@@ -60,7 +58,7 @@ class PdfFile {
           'Work Amount',
           'Work Finished'
         ],
-      data: pdfData.data
+      data: pdfData
 
     );
   }

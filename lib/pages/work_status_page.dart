@@ -3,7 +3,6 @@ import 'package:project_testing/accessories/drawer_menus.dart';
 import 'package:project_testing/database/event_operations.dart';
 import 'package:project_testing/work_status_utils/events_list.dart';
 import 'package:project_testing/accessories/titled_border.dart';
-import 'package:project_testing/calendar_utils/add_event_page.dart';
 
 class WorkStatus extends StatefulWidget {
   @override

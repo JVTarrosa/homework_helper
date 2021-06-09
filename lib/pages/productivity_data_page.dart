@@ -4,7 +4,6 @@ import 'package:project_testing/database/event_operations.dart';
 import 'package:project_testing/accessories/drawer_menus.dart';
 import 'package:project_testing/productivity_utils/total_chart.dart';
 import 'package:project_testing/productivity_utils/page_chart.dart';
-import 'package:project_testing/productivity_utils/pdf_data_object.dart';
 import 'package:project_testing/productivity_utils/pdfFile.dart';
 
 class ProductivityData extends StatefulWidget {
@@ -184,8 +183,7 @@ class _ProductivityDataState extends State<ProductivityData> {
                           fontSize: 20.0),
                     ),
                     onPressed: () async {
-                      final pdfData = PdfData(data: await _getData());
-                      final pdfFile = await PdfFile.generate(pdfData);
+                      final pdfFile = await PdfFile.generate(await _getData());
 
                       PdfFile.openFile(pdfFile);
                     },

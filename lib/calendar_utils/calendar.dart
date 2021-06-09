@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:project_testing/accessories/titled_border.dart';
 import 'package:intl/intl.dart';
-import 'package:project_testing/calendar_utils/add_event_page.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'event_object.dart';
 import 'package:project_testing/database/event_operations.dart';
 import 'package:project_testing/calendar_utils/events_list.dart';
+
+import 'package:project_testing/calendar_utils/add_or_edit_event_page.dart';
 
 class Calendar extends StatefulWidget {
   @override
@@ -200,7 +201,7 @@ class _CalendarState extends State<Calendar> {
           Navigator.of(context).pop();
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => AddEvent(dateSelected: selectedDay),
+              builder: (context) => AddOrEditEvent(date: selectedDay),
             ),
           );
           _fetchEvents();

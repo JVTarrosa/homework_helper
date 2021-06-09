@@ -94,6 +94,12 @@ class _PomodoroPauseState extends State<PomodoroPause> {
             builder: (context, LockVisualNotifier notifier, child) {
               return Stack(
                 children: [
+                  Image.asset(
+                    stillScreen(notifier.lockInt),
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    fit: BoxFit.cover,
+                  ),
                   Image.network(
                     animatedScreen(notifier.lockInt),
                     height: MediaQuery.of(context).size.height,
@@ -103,12 +109,7 @@ class _PomodoroPauseState extends State<PomodoroPause> {
                       if (loadingProgress == null) {
                         return child;
                       }
-                      return Image.asset(
-                        stillScreen(notifier.lockInt),
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                        fit: BoxFit.cover,
-                      );
+                      return Container();
                     },
                   ),
                   Container(

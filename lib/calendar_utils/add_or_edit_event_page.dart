@@ -4,24 +4,33 @@ import 'event_object.dart';
 import 'event_form.dart';
 import 'package:project_testing/accessories/drawer_menus.dart';
 
-class EditEvent extends StatefulWidget {
+class AddOrEditEvent extends StatefulWidget {
   final Event? event;
+  DateTime? dateSelected;
 
-  const EditEvent({
+  AddOrEditEvent({
     Key? key,
     this.event,
-  }) : super(key: key);
+    DateTime? date
+  }) : super(key: key) {
+    dateSelected = date;
+  }
 
   @override
-  _EditEventState createState() => _EditEventState();
+  _AddOrEditEventState createState() => _AddOrEditEventState(date: dateSelected);
 }
 
-class _EditEventState extends State<EditEvent> {
+class _AddOrEditEventState extends State<AddOrEditEvent> {
   EventOperations eventOperations = EventOperations();
   final _formKey = GlobalKey<FormState>();
   late String title;
   late String description;
+  DateTime? dateSelected;
   late int icon;
+
+  _AddOrEditEventState({DateTime? date}) {
+      dateSelected = date;
+  }
 
   @override
   void initState() {
@@ -29,6 +38,7 @@ class _EditEventState extends State<EditEvent> {
 
     title = widget.event?.title ?? '';
     description = widget.event?.description ?? '';
+    dateSelected = widget.event?.date ?? dateSelected;
     icon = widget.event?.icon ?? 1;
   }
 
@@ -113,7 +123,7 @@ class _EditEventState extends State<EditEvent> {
               : Colors.grey.shade700,
         ),
         onPressed: () {
-          updateEvent();
+          addOrUpdateEvent();
           Navigator.of(context).pushReplacementNamed('home');
         },
         child: Text('Save'),
@@ -121,25 +131,27 @@ class _EditEventState extends State<EditEvent> {
     );
   }
 
-  // void addOrUpdateEvent() {
-  //   final isValid = _formKey.currentState!.validate();
-  //
-  //   if (isValid) {
-  //     final isUpdating = widget.event != null;
-  //
-  //     if (isUpdating) {
-  //       updateEvent();
-  //     } else {
-  //      addEvent();
-  //     }
-  //
-  //     Navigator.of(context).pushReplacementNamed('home');
-  //   }
-  // }
+  void addOrUpdateEvent() {
+    final isValid = _formKey.currentState!.validate();
+
+    if (isValid) {
+      final isUpdating = widget.event != null;
+
+      if (isUpdating) {
+        updateEvent();
+      } else {
+        addEvent();
+      }
+      Navigator.of(context).pushReplacementNamed('home');
+    }
+  }
 
   updateEvent() {
-    final event =
-        widget.event!.copy(title: title, description: description, icon: icon);
+    final event = widget.event!.copy(
+        title: title,
+        description: description,
+        icon: icon
+    );
     eventOperations.updateEvent(event);
 
     print('EVENT UPDATED:\n'
@@ -147,21 +159,19 @@ class _EditEventState extends State<EditEvent> {
         'DESC: $description');
   }
 
-  // addEvent() {
-  //   final event = Event(
-  //     title: title,
-  //     description: description,
-  //     date: dateSelected ?? widget.event!.date,
-  //     status: EventStatus.inProgress
-  //   );
-  //   eventOperations.createEvent(event);
-  //
-  //   print(
-  //       'EVENT CREATED:\n'
-  //           'TITLE: $title\n'
-  //           'DESC: $description'
-  //   );
-  // }
+  addEvent() {
+    final event = Event(
+        title: title,
+        description: description,
+        date: dateSelected ?? widget.event!.date,
+        status: EventStatus.inProgress,
+        icon: icon);
+    eventOperations.createEvent(event);
+
+    print('EVENT CREATED:\n'
+        'TITLE: $title\n'
+        'DESC: $description');
+  }
 
   Widget editIconButton() {
     return Padding(
