@@ -8,9 +8,14 @@ import 'package:project_testing/pages/theme_select_page.dart';
 import 'package:project_testing/pages/premium_status_page.dart';
 import 'package:project_testing/pages/about_page.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 import 'pages/home_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp, DeviceOrientation.portraitDown
+  ]);
   runApp(MyApp());
 }
 

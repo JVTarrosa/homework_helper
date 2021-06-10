@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:project_testing/accessories/drawer_menus.dart';
 import 'package:project_testing/database/event_operations.dart';
 import 'package:project_testing/work_status_utils/events_list.dart';
-import 'package:project_testing/accessories/titled_border.dart';
 
 class WorkStatus extends StatefulWidget {
   @override
@@ -58,19 +57,6 @@ class _WorkStatusState extends State<WorkStatus> {
               color: Theme.of(context).primaryColor,
               child: Column(
                 children: [
-                  titledBorder(context, 'Close Events'),
-                  FutureBuilder(
-                    future: eventOperations.getCloseEvents(),
-                    builder: (context, snapshot) {
-                      var data;
-                      if (snapshot.hasError) {
-                        print('snapshot error');
-                      }
-                      data = snapshot.data;
-                      return snapshot.hasData ? EventsList(data) : SizedBox();
-                    },
-                  ),
-                  titledBorder(context, 'All Events'),
                   FutureBuilder(
                     future: eventOperations.getAllEvents(),
                     builder: (context, snapshot) {
@@ -87,17 +73,6 @@ class _WorkStatusState extends State<WorkStatus> {
             ),
           ],
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {
-        //     Navigator.of(context).pushReplacement(
-        //       MaterialPageRoute(
-        //         builder: (context) => AddEvent(dateSelected: DateTime.now()),
-        //       ),
-        //     );
-        //     setState(() {});
-        //   },
-        //   child: Icon(Icons.add),
-        // ),
       ),
     );
   }
