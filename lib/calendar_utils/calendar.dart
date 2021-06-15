@@ -39,21 +39,16 @@ class _CalendarState extends State<Calendar> {
   }
 
   void _fetchEvents() async {
-    print('CALENDAR METHOD _fetchEvents() IS RUNNING');
     events = {};
     List<Event> allEvents = await eventOperations.getAllEvents();
     allEvents.forEach((event) {
       if (events.containsKey(event.date)) {
-        print(
-            'EVENT ADDED TO EXISTING DATE ON MAP: events[$events.date].add($event)');
         events[event.date]!.add(event);
       } else {
-        print('NEW DATE ADDED TO MAP: events[$events.date] = [$event]');
         events[event.date] = [event];
       }
     });
     setState(() {});
-    print('EVENTS MAP $events');
   }
 
   List<Event> getEventsThisDay(DateTime date) {

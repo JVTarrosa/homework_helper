@@ -153,10 +153,6 @@ class _AddOrEditEventState extends State<AddOrEditEvent> {
         icon: icon
     );
     eventOperations.updateEvent(event);
-
-    print('EVENT UPDATED:\n'
-        'TITLE: $title\n'
-        'DESC: $description');
   }
 
   addEvent() {
@@ -167,10 +163,6 @@ class _AddOrEditEventState extends State<AddOrEditEvent> {
         status: EventStatus.inProgress,
         icon: icon);
     eventOperations.createEvent(event);
-
-    print('EVENT CREATED:\n'
-        'TITLE: $title\n'
-        'DESC: $description');
   }
 
   Widget editIconButton() {

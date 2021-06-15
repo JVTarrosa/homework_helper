@@ -114,7 +114,7 @@ class _StudyLockState extends State<StudyLock> {
                   var data = snapshot.data;
                   return snapshot.hasData
                       ? SavedTimerList(data)
-                      : Text('no data');
+                      : CircularProgressIndicator();
                 },
               ),
             ],
